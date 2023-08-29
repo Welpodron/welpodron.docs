@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --shiki-color-text: #000;
+  --shiki-color-background: transparent;
+  --shiki-token-constant: #f87171;
+  --shiki-token-string: red;
+  --shiki-token-comment: #880000;
+  --shiki-token-keyword: #a855f7;
+  --shiki-token-parameter: #aa0000;
+  --shiki-token-function: #3b82f6;
+  --shiki-token-string-expression: #84cc16;
+  --shiki-token-punctuation: #dd0000;
+  --shiki-token-link: blue;
+}
+
+html *::-webkit-scrollbar {
+  width: 14px;
+}
+
+html *::-webkit-scrollbar-track {
+  @apply bg-slate-50;
+}
+
+html *::-webkit-scrollbar-thumb {
+  @apply bg-gray-300;
+}
+
+html.dark *::-webkit-scrollbar-thumb {
+  @apply bg-slate-800;
+}
+
+html.dark *::-webkit-scrollbar-track {
+  @apply bg-slate-900;
+}
+
+html.dark body {
+  @apply bg-slate-950 text-slate-300;
+}
+
+html.dark .prose {
+  @apply text-slate-300;
+}
+
+html.dark {
+  --shiki-color-text: #cbd5e1;
+}
+
+pre > code {
+  @apply grid;
+}
+
+code {
+  counter-reset: line;
+}
+
+code > [data-line] {
+  @apply px-3 border-l-2 border-l-transparent;
+}
+
+code > [data-highlighted-line] {
+  @apply bg-slate-50 border-l-slate-200;
+}
+
+code [data-highlighted-chars] {
+  @apply rounded shadow bg-slate-200 p-1;
+}
+
+code [data-chars-id] {
+  @apply border-b-2;
+}
+
+code [data-chars-id="gci"] {
+  @apply border-b-red-500 bg-red-400/30 text-red-500 !important;
+}
+
+code > [data-line]::before {
+  counter-increment: line;
+  content: counter(line);
+
+  /* Other styling */
+  @apply text-slate-300 text-right mr-8 inline-block w-4;
+}
+
+code[data-line-numbers-max-digits="2"] > [data-line]::before {
+  width: 2rem;
+}
+
+code[data-line-numbers-max-digits="3"] > [data-line]::before {
+  width: 3rem;
+}
+
+.showcase-preview {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(148 163 184 / 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+}
+
+.content-table thead {
+  @apply grid top-0 z-10 sticky;
+}
+
+.content-table thead tr {
+  @apply grid  p-4 gap-x-2 bg-slate-50 items-center dark:bg-slate-900 grid-cols-3;
+}
+
+.content-table th {
+  @apply font-medium;
+}
+
+.content-table tbody {
+  @apply grid overflow-x-auto;
+}
+
+.content-table tbody tr {
+  @apply grid  p-4 gap-x-2 items-center grid-cols-3 border-b border-slate-50 dark:border-slate-800;
+}
+
+.content-table code {
+  @apply p-1 rounded bg-slate-50 font-semibold dark:bg-slate-800;
+}
+
+[data-rehype-pretty-code-fragment] + [data-rehype-pretty-code-fragment] > div {
+  @apply border-t-0 rounded-t-none;
+}
+
+[data-rehype-pretty-code-fragment] + .content-table {
+  @apply border-t-0 rounded-t-none mt-0;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6,
+.prose a {
+  @apply text-inherit;
+}
