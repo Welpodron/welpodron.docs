@@ -1,13 +1,12 @@
-"use client";
+'use client';
 
-import { LayoutHeader } from "./LayoutHeader";
-import { LayoutFooter } from "./LayoutFooter";
-import { LayoutContent } from "./LayoutContent";
+import { LayoutHeader } from './LayoutHeader';
+import { LayoutFooter } from './LayoutFooter';
+import { LayoutContent } from './LayoutContent';
 
-import { useMergedClassName } from "@/hooks/useMergedClassName/useMergedClassName";
-import { ComponentGeneralPropsType } from "@/components/component/Component";
-import { NavTreeBranchType } from "@/utils/utils";
-import { LayoutSidebar } from "./LayoutSidebar";
+import { classnamify } from '@/utils/classnamify/classnamify';
+import { ComponentGeneralPropsType } from '@/components/component/Component';
+import { NavTreeBranchType } from '@/utils/utils';
 
 export type LayoutPropsType = {
   navTree: NavTreeBranchType[];
@@ -19,7 +18,9 @@ export const Layout = ({
   className: classNameOutside,
   ...props
 }: LayoutPropsType) => {
-  const classNameInside = "grid relative grid-rows-[auto_minmax(0,_1fr)_auto]";
+  const classNameInside = 'grid relative grid-rows-[auto_minmax(0,_1fr)_auto]';
+
+  const mergedClassName = classnamify(classNameOutside, classNameInside);
 
   return (
     <div
@@ -27,9 +28,8 @@ export const Layout = ({
       style={{
         ...styleOutside,
       }}
-      className={useMergedClassName(classNameOutside, classNameInside)}
+      className={mergedClassName}
     >
-      <LayoutSidebar />
       <LayoutHeader />
       <LayoutContent {...{ navTree }} />
       <LayoutFooter />
@@ -41,4 +41,4 @@ Layout.Header = LayoutHeader;
 Layout.Content = LayoutContent;
 Layout.Footer = LayoutFooter;
 
-Layout.displayName = "Layout";
+Layout.displayName = 'Layout';

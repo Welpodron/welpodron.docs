@@ -1,10 +1,12 @@
-import { forwardRef, useContext, useCallback } from "react";
+'use client';
 
-import { polymorphize } from "@/utils/polymorphize/polymorphize";
+import { forwardRef, useContext, useCallback } from 'react';
 
-import { CollapseContext } from "./CollapseContext";
-import { ComponentGeneralPropsType } from "@/components/component/Component";
-import { useMergedClassName } from "@/hooks/useMergedClassName/useMergedClassName";
+import { polymorphize } from '@/utils/polymorphize/polymorphize';
+
+import { CollapseContext } from './CollapseContext';
+import { ComponentGeneralPropsType } from '@/components/component/Component';
+import { classnamify } from '@/utils/classnamify/classnamify';
 
 type CollapseControlPropsType = {
   /** default children */
@@ -29,7 +31,7 @@ const _CollapseControl = forwardRef<
   ) => {
     const { isActive, setIsActive, _id } = useContext(CollapseContext);
 
-    const Element = as || "button";
+    const Element = as || 'button';
 
     const handleElementClick = useCallback(
       (event: React.MouseEvent) => {
@@ -48,7 +50,8 @@ const _CollapseControl = forwardRef<
         style={{
           ...styleOutside,
         }}
-        className={useMergedClassName(classNameOutside)}
+        className={classnamify(classNameOutside)}
+        data-w-collapse-control=""
         ref={refForwarded}
         aria-expanded={isActive}
         aria-controls={_id}
@@ -60,8 +63,8 @@ const _CollapseControl = forwardRef<
   }
 );
 
-_CollapseControl.displayName = "Collapse.Control";
+_CollapseControl.displayName = 'Collapse.Control';
 
-export const CollapseControl = polymorphize<"button", CollapseControlPropsType>(
+export const CollapseControl = polymorphize<'button', CollapseControlPropsType>(
   _CollapseControl
 );

@@ -5,9 +5,11 @@ import {
   useCallback,
   useEffect,
   cloneElement,
-} from "react";
-import { createPortal } from "react-dom";
-import { TooltipContent } from "./TooltipContent";
+} from 'react';
+import { createPortal } from 'react-dom';
+import { TooltipContent } from './TooltipContent';
+import { classnamify } from '@/utils/classnamify/classnamify';
+import { TooltipContext } from './TooltipContext';
 
 export type TooltipControlPropsType = {
   text: string;
@@ -15,6 +17,7 @@ export type TooltipControlPropsType = {
 };
 
 export const TooltipControl = ({ children, text }: TooltipControlPropsType) => {
+  // const [isActive, setIsActive] = useState(false);
   const [isActive, setIsActive] = useState(false);
 
   const anchor = Children.only(children) as React.ReactElement;
@@ -22,48 +25,54 @@ export const TooltipControl = ({ children, text }: TooltipControlPropsType) => {
 
   const handleMouseEnter = useCallback(() => {
     setIsActive(true);
-  }, [setIsActive]);
+  }, []);
 
   const handleMouseLeave = useCallback(() => {
     setIsActive(false);
-  }, [setIsActive]);
+  }, []);
 
-  const handleWindowResize = useCallback(() => {
-    setIsActive(false);
-  }, [setIsActive]);
+  // const handleWindowResize = useCallback(() => {
+  //   setIsActive(false);
+  // }, [setIsActive]);
 
   useEffect(() => {
-    if (!anchorRef || !anchorRef.current) {
+    const anchorElement = anchorRef.current;
+
+    if (!anchorElement) {
       return;
     }
 
-    anchorRef.current.addEventListener("mouseenter", handleMouseEnter);
-    anchorRef.current.addEventListener("mouseleave", handleMouseLeave);
+    anchorElement.addEventListener('mouseenter', handleMouseEnter);
+    anchorElement.addEventListener('mouseleave', handleMouseLeave);
 
     return () => {
-      if (!anchorRef || !anchorRef.current) {
-        return;
-      }
-
-      anchorRef.current.removeEventListener("mouseenter", handleMouseEnter);
-      anchorRef.current.removeEventListener("mouseleave", handleMouseLeave);
+      anchorElement.removeEventListener('mouseenter', handleMouseEnter);
+      anchorElement.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [anchorRef.current]);
+  }, [handleMouseEnter, handleMouseLeave]);
 
-  const anchorWithRef = cloneElement(anchor, {
-    ref: anchorRef,
-  });
+  const anchorWithRef = cloneElement(
+    anchor,
+    {
+      ref: anchorRef,
+      className: classnamify(anchor.props.className, 'relative'),
+    },
+    ...anchor.props.children,
+    <TooltipContent text={text} controlRef={anchorRef} />
+  );
 
   return (
-    <>
+    <TooltipContext.Provider value={{ isActive }}>
       {anchorWithRef}
-      {isActive &&
+      {/* {isActive && <TooltipContent text={text} controlRef={anchorRef} />} */}
+
+      {/* {isActive &&
         createPortal(
           <TooltipContent text={text} controlRef={anchorRef} />,
           document.body
-        )}
-    </>
+        )} */}
+    </TooltipContext.Provider>
   );
 };
 
-TooltipControl.displayName = "Tooltip.Control";
+TooltipControl.displayName = 'Tooltip.Control';

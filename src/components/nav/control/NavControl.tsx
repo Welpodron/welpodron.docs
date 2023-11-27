@@ -1,6 +1,6 @@
-import { NavTreeBranchType } from "@/utils/utils";
-import { NavControlCollapse } from "./NavControlCollapse";
-import { NavControlLink } from "./NavControlLink";
+import { NavTreeBranchType } from '@/utils/utils';
+import { NavControlCollapse } from './NavControlCollapse';
+import { NavControlLink } from './NavControlLink';
 
 export type NavControlPropsType = {
   branch: NavTreeBranchType;
@@ -13,14 +13,14 @@ export const NavControl = ({
   depth,
   renderTree,
 }: NavControlPropsType) => {
-  return branch.isDirectory ? (
+  return branch.children.length ? (
     <NavControlCollapse {...{ branch, depth, renderTree }} />
   ) : (
     <NavControlLink {...{ branch, depth, renderTree }} />
   );
 };
 
-NavControl.displayName = "Nav.Control";
+NavControl.displayName = 'Nav.Control';
 
 NavControl.Collapse = NavControlCollapse;
 NavControl.Link = NavControlLink;

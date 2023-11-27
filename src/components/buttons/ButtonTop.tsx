@@ -1,6 +1,6 @@
-import { IconArrowUp } from "@tabler/icons-react";
-import { useCallback, useEffect, useRef } from "react";
-import { ComponentGeneralPropsType } from "@/components/component/Component";
+import { IconArrowUp } from '@tabler/icons-react';
+import { useCallback, useEffect, useRef } from 'react';
+import { ComponentGeneralPropsType } from '@/components/component/Component';
 
 export type ButtonTopPropsType = {} & ComponentGeneralPropsType;
 
@@ -12,46 +12,34 @@ export const ButtonTop = ({
   const refInside = useRef<HTMLButtonElement>(null);
 
   const handleWindowScroll = useCallback(() => {
-    if (!refInside || !refInside.current) {
-      return;
-    }
-
-    if (!window) {
+    if (!refInside.current) {
       return;
     }
 
     if (window.scrollY > 300) {
-      refInside.current.style.visibility = "visible";
+      refInside.current.style.visibility = 'visible';
     } else {
-      refInside.current.style.visibility = "hidden";
+      refInside.current.style.visibility = 'hidden';
     }
-  }, [refInside]);
+  }, []);
 
   const handleButtonClick = useCallback(() => {
-    if (!window) {
-      return;
-    }
-
     window.scrollTo({
       top: 0,
     });
   }, []);
 
   useEffect(() => {
-    if (!refInside || !refInside.current) {
+    if (!refInside.current) {
       return;
     }
 
-    if (!window) {
-      return;
-    }
-
-    window.addEventListener("scroll", handleWindowScroll);
+    window.addEventListener('scroll', handleWindowScroll);
 
     return () => {
-      window.removeEventListener("scroll", handleWindowScroll);
+      window.removeEventListener('scroll', handleWindowScroll);
     };
-  }, [refInside]);
+  }, [handleWindowScroll]);
 
   return (
     <button
@@ -69,4 +57,4 @@ export const ButtonTop = ({
   );
 };
 
-ButtonTop.displayName = "Button.Top";
+ButtonTop.displayName = 'Button.Top';

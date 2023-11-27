@@ -1,4 +1,4 @@
-import { _MdxTabsControl } from "./_MdxTabsControl";
+import { MdxTabsControl as _MdxTabsControl } from './_MdxTabsControl';
 
 export type MdxTabsControlPropsType = {
   children: React.ReactNode;

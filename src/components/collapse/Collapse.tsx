@@ -1,8 +1,12 @@
-import { useEffect, useId, useState } from "react";
+'use client';
 
-import { CollapseContext } from "./CollapseContext";
-import { CollapseControl } from "./CollapseControl";
-import { CollapseContent } from "./CollapseContent";
+import { useEffect, useId, useState } from 'react';
+
+import { CollapseContext } from './CollapseContext';
+import { CollapseControl } from './CollapseControl';
+import { CollapseContent } from './CollapseContent';
+
+import './Collapse.css';
 
 export type CollapsePropsType = {
   children: React.ReactNode;
@@ -53,7 +57,7 @@ export const Collapse = ({
   );
 };
 
-Collapse.displayName = "Collapse";
+Collapse.displayName = 'Collapse';
 
 Collapse.Control = CollapseControl;
 Collapse.Content = CollapseContent;

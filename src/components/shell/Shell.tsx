@@ -1,12 +1,13 @@
-"use client";
+'use client';
 
-import { useCallback, useLayoutEffect, useRef } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 
-import { ShellAside } from "./ShellAside";
-import { ShellContent } from "./ShellContent";
-import { ShellSidebar } from "./ShellSidebar";
-import { BreadcrumbsTreeBranchType } from "@/utils/utils";
-import { NavTreeBranchType } from "@/utils/utils";
+import { ShellAside } from './ShellAside';
+import { ShellContent } from './ShellContent';
+import { ShellSidebar } from './ShellSidebar';
+import { BreadcrumbsTreeBranchType } from '@/utils/utils';
+import { NavTreeBranchType } from '@/utils/utils';
+import { usePathname } from 'next/navigation';
 
 type ShellPropsType = {
   children: React.ReactNode;
@@ -32,6 +33,14 @@ export const Shell = ({
       return;
     }
 
+    if (!window) {
+      return;
+    }
+
+    return true;
+  };
+
+  const _checkToc = () => {
     if (!tocRef || !tocRef.current) {
       return;
     }
@@ -41,10 +50,6 @@ export const Shell = ({
     }
 
     if (!tocMobileRef || !tocMobileRef.current) {
-      return;
-    }
-
-    if (!window) {
       return;
     }
 
@@ -58,12 +63,22 @@ export const Shell = ({
       }
 
       if (window.innerWidth < 1280) {
-        (shellAsideRef.current as HTMLElement).style.display = "none";
+        (shellAsideRef.current as HTMLElement).style.display = 'none';
+        //! WTF c:
+        if (!_checkToc()) {
+          return;
+        }
+
         if (!tocMobileRef.current?.contains(tocRef.current)) {
           tocMobileRef.current?.append(tocRef.current as HTMLElement);
         }
       } else {
-        shellAsideRef.current?.style.removeProperty("display");
+        shellAsideRef.current?.style.removeProperty('display');
+        //! WTF c:
+        if (!_checkToc()) {
+          return;
+        }
+
         if (!tocParentRef.current?.contains(tocRef.current)) {
           tocParentRef.current?.append(tocRef.current as HTMLElement);
         }
@@ -77,13 +92,13 @@ export const Shell = ({
       return;
     }
 
-    window.removeEventListener("resize", handleWindowResize);
-    window.addEventListener("resize", handleWindowResize);
+    window.removeEventListener('resize', handleWindowResize);
+    window.addEventListener('resize', handleWindowResize);
 
-    handleWindowResize(new Event("resize"));
+    handleWindowResize(new Event('resize'));
 
     return () => {
-      window.removeEventListener("resize", handleWindowResize);
+      window.removeEventListener('resize', handleWindowResize);
     };
   }, [shellAsideRef, tocRef, tocParentRef, tocMobileRef, handleWindowResize]);
 

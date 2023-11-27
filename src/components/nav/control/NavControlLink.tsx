@@ -1,5 +1,5 @@
-import { NavTreeBranchType } from "@/utils/utils";
-import Link from "next/link";
+import { NavTreeBranchType } from '@/utils/utils';
+import Link from 'next/link';
 
 export type NavControlLinkPropsType = {
   branch: NavTreeBranchType;
@@ -15,12 +15,13 @@ export const NavControlLink = ({
   return (
     <>
       <Link
+        scroll={false}
         className={`block hover:accent-color font-medium rounded p-3 ${
           branch.isActive
-            ? "bg-slate-50 dark:bg-slate-800 text-indigo-700 dark:text-indigo-300"
-            : ""
+            ? 'bg-slate-50 dark:bg-slate-800 text-indigo-700 dark:text-indigo-300'
+            : ''
         }`}
-        href={"/" + branch.url}
+        href={'/' + branch.url}
       >
         {branch.title}
       </Link>
@@ -29,4 +30,4 @@ export const NavControlLink = ({
   );
 };
 
-NavControlLink.displayName = "Nav.Control.Link";
+NavControlLink.displayName = 'Nav.Control.Link';

@@ -1,8 +1,7 @@
-import { NavTreeBranchType } from "@/utils/utils";
-import { IconChevronUp } from "@tabler/icons-react";
-import Link from "next/link";
-import { ShowcaseCollapse } from "@/components/showcase/ShowcaseCollapse";
-import { Collapse } from "@/components/collapse/Collapse";
+import { NavTreeBranchType } from '@/utils/utils';
+import { IconChevronUp } from '@tabler/icons-react';
+import Link from 'next/link';
+import { Collapse } from '@/components/collapse/Collapse';
 
 export type LayoutNavPropsType = {
   tree: NavTreeBranchType[];
@@ -16,6 +15,7 @@ const renderLeaf = (leaf: NavTreeBranchType[]) => (
         className="rounded border border-slate-50 relative dark:border-slate-800 text-sm font-medium"
       >
         <Link
+          scroll={false}
           className="absolute block left-0 rounded top-0 w-full h-full"
           href={seed.url}
         >
@@ -23,13 +23,7 @@ const renderLeaf = (leaf: NavTreeBranchType[]) => (
         </Link>
         <div className="min-h-[200px] flex items-center justify-center bg-slate-50 dark:bg-slate-900 showcase-preview">
           <div className="w-[90%] h-[90%]">
-            {!seed.showcaseComponent?.trim() ? (
-              <p className="text-sm font-bold text-center">{seed.title}</p>
-            ) : (
-              seed.showcaseComponent?.trim() === "ShowcaseCollapse" && (
-                <ShowcaseCollapse />
-              )
-            )}
+            <p className="text-sm font-bold text-center">{seed.title}</p>
           </div>
         </div>
         <h4 className="p-4">{seed.title}</h4>
@@ -47,7 +41,7 @@ const renderBranch = (branch: NavTreeBranchType[]) => {
             <div className="flex py-10 justify-between items-center">
               <h3 className="text-base font-semibold">{leaf.title}</h3>
               <Collapse.Control className="rounded p-2 bg-slate-200 dark:bg-slate-800 justify-self-end">
-                <IconChevronUp />
+                <IconChevronUp data-w-collapse-control-icon="" />
               </Collapse.Control>
             </div>
             <Collapse.Content>
@@ -84,4 +78,4 @@ export const LayoutNav = ({ tree, ...props }: LayoutNavPropsType) => {
   return <>{renderTree(tree)}</>;
 };
 
-LayoutNav.displayName = "Layout.Nav";
+LayoutNav.displayName = 'Layout.Nav';

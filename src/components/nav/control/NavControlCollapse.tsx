@@ -1,11 +1,7 @@
-import {
-  IconChevronUp,
-  IconChevronDown,
-  IconBrandJavascript,
-} from "@tabler/icons-react";
-import { useState, useCallback } from "react";
-import { Collapse } from "@/components/collapse/Collapse";
-import { NavTreeBranchType } from "@/utils/utils";
+import { IconChevronUp } from '@tabler/icons-react';
+import { useState, useCallback } from 'react';
+import { Collapse } from '@/components/collapse/Collapse';
+import { NavTreeBranchType } from '@/utils/utils';
 
 export type NavControlCollapsePropsType = {
   branch: NavTreeBranchType;
@@ -27,19 +23,17 @@ export const NavControlCollapse = ({
     [setIsActive]
   );
 
+  const iconStyle = {
+    transform: `rotate(${isActive ? '0' : '180deg'})`,
+  };
+
   return (
     <Collapse onChange={handleActiveChange} isActiveDefault={isActive}>
       <Collapse.Control
         className={`flex items-center font-medium justify-between w-full rounded-r p-3`}
       >
-        <span className="inline-flex items-center">
-          {branch.iconComponent &&
-            branch.iconComponent.trim() === "IconBrandJavascript" && (
-              <IconBrandJavascript className="shrink-0 mr-2 text-yellow-500" />
-            )}
-          <span>{branch.title}</span>
-        </span>
-        {isActive ? <IconChevronUp /> : <IconChevronDown />}
+        <span>{branch.title}</span>
+        <IconChevronUp data-w-collapse-control-icon="" style={iconStyle} />
       </Collapse.Control>
       <Collapse.Content>
         {branch.children.length > 0 && renderTree(branch.children, depth + 1)}
@@ -48,4 +42,4 @@ export const NavControlCollapse = ({
   );
 };
 
-NavControlCollapse.displayName = "Nav.Control.Collapse";
+NavControlCollapse.displayName = 'Nav.Control.Collapse';

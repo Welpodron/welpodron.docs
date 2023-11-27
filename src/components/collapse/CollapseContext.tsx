@@ -1,4 +1,4 @@
-import { createContext, SetStateAction, Dispatch } from "react";
+import { createContext, SetStateAction, Dispatch } from 'react';
 
 export type CollapseContextType = {
   _id: string;
@@ -7,9 +7,9 @@ export type CollapseContextType = {
 };
 
 export const CollapseContext = createContext<CollapseContextType>({
-  _id: "",
+  _id: '',
   isActive: false,
   setIsActive: () => {},
 });
 
-CollapseContext.displayName = "Collapse.Context";
+CollapseContext.displayName = 'Collapse.Context';

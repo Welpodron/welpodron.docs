@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { ComponentGeneralPropsType } from "@/components/component/Component";
-import { useMergedClassName } from "@/hooks/useMergedClassName/useMergedClassName";
-import { polymorphize } from "@/utils/polymorphize/polymorphize";
+import { ComponentGeneralPropsType } from '@/components/component/Component';
+import { classnamify } from '@/utils/classnamify/classnamify';
+import { polymorphize } from '@/utils/polymorphize/polymorphize';
 
-import { forwardRef } from "react";
+import { forwardRef } from 'react';
 
 export type TabsControlsPropsType = {
   children: React.ReactNode;
@@ -26,7 +26,7 @@ const _TabsControls = forwardRef<
     },
     refForwarded
   ) => {
-    const Element = as || "div";
+    const Element = as || 'div';
 
     return (
       <Element
@@ -35,7 +35,7 @@ const _TabsControls = forwardRef<
         style={{
           ...styleOutside,
         }}
-        className={useMergedClassName(classNameOutside)}
+        className={classnamify(classNameOutside)}
       >
         {children}
       </Element>
@@ -43,8 +43,8 @@ const _TabsControls = forwardRef<
   }
 );
 
-_TabsControls.displayName = "Tabs.Controls";
+_TabsControls.displayName = 'Tabs.Controls';
 
-export const TabsControls = polymorphize<"div", TabsControlsPropsType>(
+export const TabsControls = polymorphize<'div', TabsControlsPropsType>(
   _TabsControls
 );

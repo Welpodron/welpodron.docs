@@ -1,19 +1,18 @@
-import { remark } from "remark";
-import matter from "gray-matter";
-import { visit } from "unist-util-visit";
-import { UnistNode } from "node_modules/unist-util-visit/lib";
-import { Post } from "contentlayer/generated";
+import { remark } from 'remark';
+import matter from 'gray-matter';
+import { visit } from 'unist-util-visit';
+import { Post } from 'contentlayer/generated';
+import { Heading } from 'mdast';
+import { Transformer } from 'unified';
+import { toString } from 'mdast-util-to-string';
 
 export type NavTreeBranchType = {
   url: string;
   title: string;
   description?: string;
   parentUrl: string;
-  isDirectory: boolean;
   isActive: boolean;
   depth: number;
-  iconComponent?: string;
-  showcaseComponent?: string;
   children: NavTreeBranchType[];
 };
 
@@ -30,45 +29,49 @@ export type TocTreeBranchType = {
   children: TocTreeBranchType[];
 };
 
+const remarkTocTree = (): Transformer => {
+  return (tree, file): void => {
+    const tocTree: TocTreeBranchType[] = [];
+    let tocTreeLinkedList: Record<string, TocTreeBranchType> = {};
+
+    visit(tree, 'heading', (node: Heading) => {
+      const text = toString(node, { includeImageAlt: false }).trim();
+
+      if (text) {
+        const branch = {
+          title: text,
+          depth: node.depth,
+          url: `#${text.toLowerCase().replace(/\s+/g, '-')}`,
+          children: [],
+        };
+
+        if (node.depth === 2) {
+          tocTree.push(branch);
+          tocTreeLinkedList[node.depth] = branch;
+        } else {
+          //! Работает так как parent является ссылкой на оригинальный объект
+          const parent = tocTreeLinkedList[node.depth - 1];
+          if (parent) {
+            parent.children.push(branch);
+            tocTreeLinkedList[node.depth] = branch;
+          }
+        }
+      }
+    });
+
+    tocTreeLinkedList = {};
+
+    file.data.tocTree = tocTree;
+  };
+};
+
 export const getTocTree = async (
   currentPostContent: string
 ): Promise<TocTreeBranchType[]> => {
   const matterResult = matter(currentPostContent);
 
   const processedContent = await remark()
-    .use(() => (root: UnistNode, file: any) => {
-      const tree: TocTreeBranchType[] = [];
-      const treeMap: Record<string, any> = {};
-
-      visit(
-        root,
-        "heading",
-        (node: { depth: number; children: { value: string }[] }) => {
-          //! В данном контексте такой трюк работает так как branch является ссылочным типом и по сути внутри tree и treeMap мы работаем с одним и тем же объектом
-          const branch: TocTreeBranchType = {
-            title: node.children[0].value,
-            depth: node.depth,
-            url: `#${node.children[0].value
-              .toLowerCase()
-              .replace(/\s+/g, "-")}`,
-            children: [],
-          };
-
-          if (node.depth === 2) {
-            tree.push(branch);
-            treeMap[node.depth] = branch;
-          } else {
-            const parent = treeMap[node.depth - 1];
-            if (parent) {
-              parent.children.push(branch);
-              treeMap[node.depth] = branch;
-            }
-          }
-        }
-      );
-
-      file.data.tocTree = tree;
-    })
+    .use(remarkTocTree as any)
     .process(matterResult.content);
 
   return processedContent.data.tocTree as TocTreeBranchType[];
@@ -79,17 +82,14 @@ export const getNavTree = (
   currentPost?: Post
 ): NavTreeBranchType[] => {
   let tree: NavTreeBranchType[] = allPosts.map((post) => ({
-    showcaseComponent: post.showcaseComponent,
     description: post.description,
     url: post._raw.flattenedPath,
     title: post.title,
-    isDirectory: post.isDirectory,
     isActive: currentPost
       ? post._raw.flattenedPath === currentPost._raw.flattenedPath
       : false,
     parentUrl: post.parent,
     depth: post.depth,
-    iconComponent: post.iconComponent,
     children: [],
   }));
 
@@ -138,7 +138,7 @@ export const getBreadcrumbsTree = (
 
   const branch = [currentLeaf];
 
-  while (currentUrl !== "posts") {
+  while (currentUrl !== 'posts') {
     const parent = tree.find((n) => n.url === currentLeaf.parentUrl);
 
     if (!parent) {
@@ -152,9 +152,9 @@ export const getBreadcrumbsTree = (
   }
 
   branch.push({
-    url: "",
-    title: "Домашняя страница",
-    parentUrl: "",
+    url: '',
+    title: 'Домашняя страница',
+    parentUrl: '',
   });
 
   return branch.reverse();

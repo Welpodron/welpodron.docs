@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { forwardRef, useCallback, useContext } from "react";
-import { TabsContext } from "./TabsContext";
-import { useMergedClassName } from "@/hooks/useMergedClassName/useMergedClassName";
-import { polymorphize } from "@/utils/polymorphize/polymorphize";
+import { forwardRef, useCallback, useContext } from 'react';
+import { TabsContext } from './TabsContext';
+import { classnamify } from '@/utils/classnamify/classnamify';
+import { polymorphize } from '@/utils/polymorphize/polymorphize';
 
 export type TabsControlPropsType = {
   itemId: string;
@@ -25,11 +25,7 @@ const _TabsControl = forwardRef<
 
     const item = items.find((item) => item.itemId === itemId);
 
-    const Element = as || "button";
-
-    const handleElementClick = useCallback(() => {
-      setActiveItemId(itemId);
-    }, [setActiveItemId]);
+    const Element = as || 'button';
 
     return (
       <Element
@@ -38,8 +34,8 @@ const _TabsControl = forwardRef<
         role="tab"
         aria-controls={item?.id}
         aria-selected={activeItemId === itemId}
-        className={useMergedClassName(classNameOutside)}
-        onClick={handleElementClick}
+        className={classnamify(classNameOutside)}
+        onClick={() => setActiveItemId(itemId)}
       >
         {children}
       </Element>
@@ -47,8 +43,8 @@ const _TabsControl = forwardRef<
   }
 );
 
-_TabsControl.displayName = "Tabs.Control";
+_TabsControl.displayName = 'Tabs.Control';
 
-export const TabsControl = polymorphize<"button", TabsControlPropsType>(
+export const TabsControl = polymorphize<'button', TabsControlPropsType>(
   _TabsControl
 );

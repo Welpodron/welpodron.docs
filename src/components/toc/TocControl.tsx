@@ -1,5 +1,5 @@
-import { useTocLinkHighlighted } from "@/hooks/useTocLinkHighlighted/useTocLinkHighlighted";
-import { TocTreeBranchType } from "@/utils/utils";
+import { useTocLinkHighlighted } from '@/hooks/useTocLinkHighlighted/useTocLinkHighlighted';
+import { TocTreeBranchType } from '@/utils/utils';
 
 export type TocControlPropsType = {
   branch: TocTreeBranchType;
@@ -12,19 +12,19 @@ export const TocControl = ({
   depth,
   renderTree,
 }: TocControlPropsType) => {
-  const isHighlighted = useTocLinkHighlighted(branch.url.replace("#", ""));
+  const isHighlighted = useTocLinkHighlighted(branch.url.replace('#', ''));
 
   return (
     <>
       <a
         href={branch.url}
         style={{
-          paddingLeft: (depth + 2) * 8 + "px",
+          paddingLeft: (depth + 2) * 4 + 'px',
         }}
         className={`block font-medium rounded p-3 ${
           isHighlighted
-            ? "bg-slate-50 dark:bg-slate-800 text-indigo-700 dark:text-indigo-300"
-            : ""
+            ? 'bg-slate-50 dark:bg-slate-800 text-indigo-700 dark:text-indigo-300'
+            : ''
         }`}
       >
         {branch.title}
@@ -34,4 +34,4 @@ export const TocControl = ({
   );
 };
 
-TocControl.displayName = "Toc.Control";
+TocControl.displayName = 'Toc.Control';

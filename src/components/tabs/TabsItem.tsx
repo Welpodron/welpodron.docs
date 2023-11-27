@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { forwardRef, useContext, useEffect, useId, useRef } from "react";
-import { TabsContext } from "./TabsContext";
-import { useMergedClassName } from "@/hooks/useMergedClassName/useMergedClassName";
-import { polymorphize } from "@/utils/polymorphize/polymorphize";
-import { useMergedRef } from "@/hooks/useMergedRef/useMergedRef";
+import { forwardRef, useContext, useEffect, useId, useRef } from 'react';
+import { TabsContext } from './TabsContext';
+import { classnamify } from '@/utils/classnamify/classnamify';
+import { polymorphize } from '@/utils/polymorphize/polymorphize';
+import { useMergedRef } from '@/hooks/useMergedRef/useMergedRef';
 
 export type TabsItemPropsType = {
   itemId: string;
@@ -26,28 +26,30 @@ const _TabsItem = forwardRef<
 
     const { activeItemId, dispatchItems } = useContext(TabsContext);
 
-    const Element = as || "div";
+    const Element = as || 'div';
 
     const refInside = useRef<HTMLDivElement>(null);
     const refMerged = useMergedRef(refInside, refForwarded);
 
+    const classNameMerged = classnamify(classNameOutside);
+
     useEffect(() => {
-      if (!refInside || !refInside.current) {
+      if (!refInside.current) {
         return;
       }
 
       dispatchItems({
-        type: "ADD_ITEM",
+        type: 'ADD_ITEM',
         payload: { id: idInside, ref: refInside, itemId },
       });
 
       return () => {
         dispatchItems({
-          type: "REMOVE_ITEM",
+          type: 'REMOVE_ITEM',
           payload: { id: idInside, ref: refInside, itemId },
         });
       };
-    }, [refInside, dispatchItems]);
+    }, [dispatchItems, idInside, itemId]);
 
     return (
       <Element
@@ -55,8 +57,8 @@ const _TabsItem = forwardRef<
         id={idInside}
         ref={refMerged}
         role="tabpanel"
-        className={useMergedClassName(classNameOutside)}
-        style={{ display: activeItemId === itemId ? "block" : "none" }}
+        className={classNameMerged}
+        style={{ display: activeItemId === itemId ? 'block' : 'none' }}
       >
         {children}
       </Element>
@@ -64,6 +66,6 @@ const _TabsItem = forwardRef<
   }
 );
 
-_TabsItem.displayName = "Tabs.Item";
+_TabsItem.displayName = 'Tabs.Item';
 
-export const TabsItem = polymorphize<"div", TabsItemPropsType>(_TabsItem);
+export const TabsItem = polymorphize<'div', TabsItemPropsType>(_TabsItem);

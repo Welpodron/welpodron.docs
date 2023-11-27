@@ -1,19 +1,20 @@
-"use client";
+'use client';
 
-import { forwardRef, useCallback, useRef } from "react";
+import { forwardRef, useCallback, useRef } from 'react';
 
-import { useMergedRef } from "@/hooks/useMergedRef/useMergedRef";
+import { useMergedRef } from '@/hooks/useMergedRef/useMergedRef';
 
-import { NavControl } from "./control/NavControl";
-import Link from "next/link";
-import { IconHome } from "@tabler/icons-react";
-import { NavTreeBranchType } from "@/utils/utils";
+import { NavControl } from './control/NavControl';
+import Link from 'next/link';
+import { IconHome } from '@tabler/icons-react';
+import { NavTreeBranchType } from '@/utils/utils';
+import Image from 'next/image';
 
 const renderTree = (tree: NavTreeBranchType[], depth: number) => {
   return (
     <ul
       style={{
-        marginLeft: depth * 8 + "px",
+        marginLeft: depth * 4 + 'px',
       }}
     >
       {tree.map((branch) => (
@@ -37,10 +38,6 @@ export const Nav = forwardRef<HTMLDivElement, NavPropsType>(
 
     const mergedRef = useMergedRef(ref, forwardedRef);
 
-    if (!tree.length) {
-      return null;
-    }
-
     const handleBtnToContentClick = useCallback(() => {
       if (!shellContentRef || !shellContentRef.current) {
         return;
@@ -49,10 +46,29 @@ export const Nav = forwardRef<HTMLDivElement, NavPropsType>(
       shellContentRef.current.focus();
     }, [shellContentRef]);
 
+    if (!tree.length) {
+      return null;
+    }
+
     return (
       <nav ref={mergedRef} className="space-y-8">
         <div className="flex items-center justify-between">
           <Link
+            scroll={false}
+            href="/"
+            className="inline-flex items-center p-2 font-medium text-xs lowercase bg-slate-200 dark:bg-slate-800 rounded"
+          >
+            <Image
+              src="/logo.svg"
+              className="shrink-0 mr-1 w-5 h-5"
+              width={255}
+              height={236}
+              alt="logo"
+            />
+            Welpodron.Docs
+          </Link>
+          <Link
+            scroll={false}
             className="rounded text-white inline-block p-2 bg-indigo-500 dark:text-slate-300 dark:bg-indigo-700"
             href="/"
           >
@@ -66,12 +82,12 @@ export const Nav = forwardRef<HTMLDivElement, NavPropsType>(
             Перейти к содержимому
           </button>
         </div>
+        <div ref={tocMobileRef}></div>
         <p className="font-medium">Навигация:</p>
         {renderTree(tree, 0)}
-        <div ref={tocMobileRef}></div>
       </nav>
     );
   }
 );
 
-Nav.displayName = "Nav";
+Nav.displayName = 'Nav';

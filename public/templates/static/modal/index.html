@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="../../../css/welpodron.core/_modal/style.min.css"
+    />
+  </head>
+  <body>
+    <button
+      data-w-modal-control
+      data-w-modal-id="modal_example_1"
+      data-w-modal-action="show"
+    >
+      <span>Содержимое управляющего элемента</span>
+    </button>
+    <div data-w-modal data-w-modal-id="modal_example_1">
+      <span>Содержимое управляемого элемента</span>
+      <button
+        data-w-modal-control
+        data-w-modal-id="modal_example_1"
+        data-w-modal-action="hide"
+      >
+        <span>Содержимое управляющего элемента</span>
+      </button>
+    </div>
+    <script src="../../../js/welpodron.core/utils/script.min.js"></script>
+    <script src="../../../js/welpodron.core/animate/script.min.js"></script>
+    <script src="../../../js/welpodron.core/_modal/script.min.js"></script>
+    <script>
+      (() => {
+        if (window.welpodron && window.welpodron.modal) {
+          const instance = new window.welpodron.modal({
+            element: document.querySelector(
+              '[data-w-modal][data-w-modal-id="modal_example_1"]'
+            ),
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

@@ -1,6 +1,6 @@
-import { IconHome2, IconChevronRight } from "@tabler/icons-react";
-import Link from "next/link";
-import { BreadcrumbsTreeBranchType } from "@/utils/utils";
+import { IconHome2, IconChevronRight } from '@tabler/icons-react';
+import Link from 'next/link';
+import { BreadcrumbsTreeBranchType } from '@/utils/utils';
 
 export type BreadcrumbsControlPropsType = {
   branch: BreadcrumbsTreeBranchType;
@@ -17,6 +17,7 @@ export const BreadcrumbsControl = ({
     <li className="inline-flex items-center m-1">
       {isFirst ? (
         <Link
+          scroll={false}
           href="/"
           className="p-1 px-2 rounded-full bg-indigo-500 dark:text-slate-300 dark:bg-indigo-700 text-white"
         >
@@ -38,4 +39,4 @@ export const BreadcrumbsControl = ({
   );
 };
 
-BreadcrumbsControl.displayName = "Breadcrumbs.Control";
+BreadcrumbsControl.displayName = 'Breadcrumbs.Control';
