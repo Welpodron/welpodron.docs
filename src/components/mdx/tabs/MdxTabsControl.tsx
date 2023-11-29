@@ -1,18 +1,13 @@
-import { MdxTabsControl as _MdxTabsControl } from './_MdxTabsControl';
+import {
+  MdxTabsControl as _MdxTabsControl,
+  MdxTabsControlPropsType as _MdxTabsControlPropsType,
+} from './_MdxTabsControl';
 
-export type MdxTabsControlPropsType = {
-  children: React.ReactNode;
-  itemId: string;
-};
+export type MdxTabsControlPropsType = {} & _MdxTabsControlPropsType;
 
 export const MdxTabsControl = ({
   children,
-  itemId,
   ...props
 }: MdxTabsControlPropsType) => {
-  return (
-    <_MdxTabsControl {...{ itemId }} {...props}>
-      {children}
-    </_MdxTabsControl>
-  );
+  return <_MdxTabsControl {...props}>{children}</_MdxTabsControl>;
 };

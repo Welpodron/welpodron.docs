@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { TabsControls } from "./TabsControls";
-import { TabsControl } from "./TabsControl";
-import { TabsItem } from "./TabsItem";
+import { TabsControls } from './TabsControls';
+import { TabsControl } from './TabsControl';
+import { TabsItem } from './TabsItem';
 
-import { TabsActionType, TabsContext, TabsItemType } from "./TabsContext";
-import { useEffect, useReducer, useState } from "react";
+import { TabsActionType, TabsContext, TabsItemType } from './TabsContext';
+import { useEffect, useReducer, useState } from 'react';
 
 export type TabsPropsType = {
   /**
@@ -30,14 +30,14 @@ const tabsReducer = (
   { type, payload }: TabsActionType
 ) => {
   switch (type) {
-    case "ADD_ITEM": {
+    case 'ADD_ITEM': {
       const { id, ref, itemId } = payload;
 
       if (!state.some((item) => item.id === id)) {
         return [...state, { id, ref, itemId }];
       }
     }
-    case "REMOVE_ITEM": {
+    case 'REMOVE_ITEM': {
       const { id } = payload;
 
       return state.filter((item) => item.id !== id);
@@ -51,7 +51,7 @@ const tabsReducer = (
 export const Tabs = ({
   children,
   activeItemId: activeItemIdOutside,
-  activeItemIdDefault = "",
+  activeItemIdDefault = '',
   onChange,
   ...props
 }: TabsPropsType) => {
@@ -67,7 +67,7 @@ export const Tabs = ({
   const [items, dispatchItems] = useReducer(tabsReducer, []);
 
   return (
-    <div role="tablist">
+    <div role="tablist" {...props}>
       <TabsContext.Provider
         value={{
           items,
@@ -89,4 +89,4 @@ Tabs.Controls = TabsControls;
 Tabs.Control = TabsControl;
 Tabs.Item = TabsItem;
 
-Tabs.displayName = "Tabs";
+Tabs.displayName = 'Tabs';

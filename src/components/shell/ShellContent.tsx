@@ -1,27 +1,39 @@
-import {
-  IconArrowLeft,
-  IconArrowRight,
-  IconBrandGithub,
-} from '@tabler/icons-react';
+import { IconBrandGithub } from '@tabler/icons-react';
 import Link from 'next/link';
 import { ButtonTheme } from '@/components/buttons/ButtonTheme';
 import { ButtonTop } from '@/components/buttons/ButtonTop';
 import { forwardRef } from 'react';
 import { Breadcrumbs } from '@/components/breadcrumbs/Breadcrumbs';
 import { BreadcrumbsTreeBranchType } from '@/utils/utils';
+import { ComponentGeneralPropsType } from '@/components/component/Component';
+import { classnamify } from '@/utils/classnamify/classnamify';
 
 export type ShellContentPropsType = {
   children: React.ReactNode;
   breadcrumbsTree: BreadcrumbsTreeBranchType[];
-};
+} & ComponentGeneralPropsType;
 
 export const ShellContent = forwardRef<HTMLDivElement, ShellContentPropsType>(
-  ({ children, breadcrumbsTree }, forwardedRef) => {
+  (
+    {
+      children,
+      breadcrumbsTree,
+      style: styleOutside,
+      className: classNameOutside,
+      ...props
+    },
+    forwardedRef
+  ) => {
     return (
       <div
+        {...props}
         ref={forwardedRef}
         tabIndex={0}
-        className="grid relative grid-rows-[auto_minmax(0,_1fr)_auto]"
+        style={{ ...styleOutside }}
+        className={classnamify(
+          'grid relative grid-rows-[auto_minmax(0,_1fr)_auto]',
+          classNameOutside
+        )}
       >
         <header className="p-4  bg-slate-50 flex items-center justify-end z-10 h-[72px] dark:bg-slate-900">
           <ButtonTheme className="ml-auto bg-slate-200 dark:bg-slate-800" />

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 //! Внимание! В данном контексте все type воспринимаются как некоторая функция дла создания новых типов
 
@@ -38,7 +38,7 @@ type GetComponentPropsTypesWithoutRefType<
  */
 type GetComponentRefType<ElementType extends React.ElementType> = {
   // Вытаскиваем из всего списка React.ComponentPropsWithRef только тип refa
-  ref?: React.ComponentPropsWithRef<ElementType>["ref"];
+  ref?: React.ComponentPropsWithRef<ElementType>['ref'];
 };
 
 /**

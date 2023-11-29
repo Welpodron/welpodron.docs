@@ -5,15 +5,20 @@ import {
   IconArrowsMaximize,
   IconArrowsMinimize,
   IconEye,
+  IconLoader2,
 } from '@tabler/icons-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export type ShowcasePropsType = {
-  children: React.ReactNode;
+  url: string;
 };
 
-export const Showcase = ({ children }: ShowcasePropsType) => {
+export const Showcase = ({ url, ...props }: ShowcasePropsType) => {
+  const [isLoading, setIsLoading] = useState(true);
+
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const handleDocumentKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Escape') {
@@ -34,6 +39,66 @@ export const Showcase = ({ children }: ShowcasePropsType) => {
       document.removeEventListener('keydown', handleDocumentKeyDown);
     };
   }, [isFullscreen, handleDocumentKeyDown]);
+
+  //! Переопределяем поведение next по умолчанию чтобы избежать рекурсии iframe из-за 404
+  useEffect(() => {
+    if (!iframeRef.current) {
+      return;
+    }
+
+    if (!url) {
+      return setIsLoading(false);
+    }
+
+    let _url: URL;
+
+    try {
+      //! ONLY THE SAME ORIGIN SUPPORTED
+      _url = new URL(url, window.location.origin);
+    } catch (_) {
+      return setIsLoading(false);
+    }
+
+    if (!_url) {
+      return setIsLoading(false);
+    }
+
+    const abortController = new AbortController();
+    const { signal } = abortController;
+
+    const fetchUrl = async () => {
+      try {
+        const response = await fetch(_url.href, {
+          signal,
+        });
+
+        if (!response.ok) {
+          throw new Error(response.statusText);
+        }
+
+        const html = await response.text();
+
+        if (!iframeRef.current) {
+          return;
+        }
+
+        iframeRef.current.srcdoc = html;
+
+        setIsLoading(false);
+      } catch (error: any) {
+        if (!signal.aborted) {
+          console.error(error);
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchUrl();
+
+    return () => {
+      abortController.abort();
+    };
+  }, [url]);
 
   return (
     <div
@@ -60,15 +125,20 @@ export const Showcase = ({ children }: ShowcasePropsType) => {
         </button>
       </div>
       <div
-        className={classnamify(
-          `p-4 flex justify-center items-center showcase-preview`,
-          isFullscreen ? `overflow-y-auto` : `min-h-[300px]`
-        )}
+        className={`p-4 flex justify-center items-center showcase-preview overflow-y-auto min-h-[300px]`}
       >
-        <div className="m-auto max-w-md w-full p-4 bg-slate-400/50 rounded">
-          <div className="w-full">{children}</div>
-        </div>
+        {isLoading && <IconLoader2 className="animate-spin w-12 h-12" />}
+        <iframe
+          className={classnamify(
+            'w-full h-full m-auto bg-slate-50/40 dark:bg-slate-800/10 rounded',
+            isLoading && 'sr-only'
+          )}
+          src="about:blank"
+          ref={iframeRef}
+        />
       </div>
     </div>
   );
 };
+
+Showcase.displayName = 'Showcase';

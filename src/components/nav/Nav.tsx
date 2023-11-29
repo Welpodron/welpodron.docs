@@ -47,7 +47,7 @@ export const Nav = forwardRef<HTMLDivElement, NavPropsType>(
     }, [shellContentRef]);
 
     if (!tree.length) {
-      return null;
+      return <></>;
     }
 
     return (

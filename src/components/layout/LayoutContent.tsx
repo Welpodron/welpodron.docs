@@ -1,13 +1,9 @@
 import { NavTreeBranchType } from '@/utils/utils';
 import { LayoutNav } from './LayoutNav';
 import {
-  IconAlertOctagon,
   IconBrandDiscord,
-  IconBrandDiscordFilled,
-  IconBrandGithub,
   IconBrandTelegram,
   IconBrandVk,
-  IconX,
 } from '@tabler/icons-react';
 import { Alert } from '@/components/alert/Alert';
 

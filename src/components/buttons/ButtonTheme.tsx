@@ -16,16 +16,12 @@ export const ButtonTheme = ({
   //! Next.js Hydration mismatch warning fix Thanks: https://www.npmjs.com/package/next-themes#avoid-hydration-mismatch
   const [isMountedState, setIsMountedState] = useState(false);
 
-  const classNameInside = 'rounded p-2';
-
   const { theme, toggleTheme } = useContext(ThemeProviderContext);
 
   //! так как useEffect вызывается на клиенте
   useEffect(() => {
     setIsMountedState(true);
   }, []);
-
-  const className = classnamify(classNameInside, classNameOutside);
 
   //! Next.js Hydration mismatch warning fix
   if (!isMountedState) {
@@ -45,7 +41,8 @@ export const ButtonTheme = ({
         ...styleOutside,
       }}
       onClick={toggleTheme}
-      className={className}
+      className={classnamify(`rounded p-2`, classNameOutside)}
+      type="button"
     >
       {theme === 'dark' ? (
         <IconSun className="text-yellow-500 pointer-events-none" />

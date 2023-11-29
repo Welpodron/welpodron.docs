@@ -1,10 +1,10 @@
-import { useRef, useState, useLayoutEffect } from "react";
+import { useRef, useState, useEffect } from 'react';
 
 export const useTocLinkHighlighted = (id: string) => {
-  const [activeId, setActiveId] = useState("");
-  const observer = useRef<IntersectionObserver>();
+  const [activeId, setActiveId] = useState('');
+  const observerRef = useRef<IntersectionObserver>();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const handleObserver = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         if (entry?.isIntersecting) {
@@ -13,15 +13,15 @@ export const useTocLinkHighlighted = (id: string) => {
       });
     };
 
-    observer.current = new IntersectionObserver(handleObserver, {
-      rootMargin: "0px 0px -90% 0px",
+    observerRef.current = new IntersectionObserver(handleObserver, {
+      rootMargin: '0px 0px -90% 0px',
     });
 
-    const elements = document.querySelectorAll("h2, h3, h4");
-    elements.forEach((elem) => observer?.current?.observe(elem));
+    const elements = document.querySelectorAll('h2, h3, h4');
+    elements.forEach((elem) => observerRef.current?.observe(elem));
 
     return () => {
-      observer.current?.disconnect();
+      observerRef.current?.disconnect();
     };
   }, []);
 

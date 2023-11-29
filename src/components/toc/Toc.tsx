@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { TocTreeBranchType } from "@/utils/utils";
-import { forwardRef } from "react";
-import { TocControl } from "./TocControl";
+import { TocTreeBranchType } from '@/utils/utils';
+import { forwardRef } from 'react';
+import { TocControl } from './TocControl';
 
 const renderTree = (tree: TocTreeBranchType[], depth: number) => {
   return (
@@ -35,4 +35,4 @@ export const Toc = forwardRef<HTMLDivElement, TocPropsType>(
   }
 );
 
-Toc.displayName = "Toc";
+Toc.displayName = 'Toc';

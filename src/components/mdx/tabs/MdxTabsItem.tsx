@@ -1,18 +1,10 @@
-import { TabsItem } from "@/components/tabs/TabsItem";
+import { TabsItem, TabsItemPropsType } from '@/components/tabs/TabsItem';
 
-export type MdxTabsControlPropsType = {
-  children: React.ReactNode;
-  itemId: string;
-};
+export type MdxTabsControlPropsType = {} & TabsItemPropsType;
 
 export const MdxTabsItem = ({
   children,
-  itemId,
   ...props
 }: MdxTabsControlPropsType) => {
-  return (
-    <TabsItem itemId={itemId} {...props}>
-      {children}
-    </TabsItem>
-  );
+  return <TabsItem {...props}>{children}</TabsItem>;
 };

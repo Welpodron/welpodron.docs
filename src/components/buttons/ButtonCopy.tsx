@@ -38,7 +38,7 @@ export const ButtonCopy = ({
   }, [text]);
 
   return (
-    <span className={isCopied ? 'cursor-not-allowed' : 'pointer'}>
+    <span className={isCopied ? 'cursor-default' : 'pointer'}>
       <button
         {...props}
         style={{
@@ -50,6 +50,7 @@ export const ButtonCopy = ({
           classNameButtonOutside
         )}
         disabled={isCopied}
+        type="button"
         onClick={handleButtonClick}
       >
         {isCopied ? <IconCheck className="text-green-500" /> : <IconCopy />}

@@ -1,6 +1,9 @@
 'use client';
 
-import { TabsControl } from '@/components/tabs/TabsControl';
+import {
+  TabsControl,
+  TabsControlPropsType,
+} from '@/components/tabs/TabsControl';
 import { TabsContext } from '@/components/tabs/TabsContext';
 
 import { useContext } from 'react';
@@ -9,11 +12,9 @@ import {
   IconBrandJavascript,
   IconBrandCss3,
 } from '@tabler/icons-react';
+import { classnamify } from '@/utils/classnamify/classnamify';
 
-export type MdxTabsControlPropsType = {
-  children: React.ReactNode;
-  itemId: string;
-};
+export type MdxTabsControlPropsType = {} & TabsControlPropsType;
 
 export const MdxTabsControl = ({
   children,
@@ -24,9 +25,10 @@ export const MdxTabsControl = ({
 
   return (
     <TabsControl
-      className={`font-medium p-3 ${
+      className={classnamify(
+        `font-medium p-3 inline-flex items-center leading-none`,
         activeItemId === itemId ? 'bg-indigo-500 text-white' : 'bg-transparent'
-      } inline-flex items-center leading-none`}
+      )}
       itemId={itemId}
       {...props}
     >

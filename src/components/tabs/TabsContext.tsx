@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 export type TabsItemType = {
   id: string;
@@ -7,7 +7,7 @@ export type TabsItemType = {
 };
 
 export type TabsActionType = {
-  type: "ADD_ITEM" | "REMOVE_ITEM";
+  type: 'ADD_ITEM' | 'REMOVE_ITEM';
   payload: TabsItemType;
 };
 
@@ -22,8 +22,8 @@ export type TabsContextType = {
 export const TabsContext = createContext<TabsContextType>({
   items: [],
   dispatchItems: () => {},
-  activeItemId: "",
+  activeItemId: '',
   setActiveItemId: () => {},
 });
 
-TabsContext.displayName = "Tabs.Context";
+TabsContext.displayName = 'Tabs.Context';

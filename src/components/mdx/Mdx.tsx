@@ -12,7 +12,6 @@ import { MdxShowcase } from './MdxShowcase';
 
 import { MdxAlert } from './MdxAlert';
 import { MdxMethod } from './MdxMethod';
-import { MdxSandbox } from './MdxSandbox';
 
 const components = {
   pre: MdxPre,
@@ -24,7 +23,6 @@ const components = {
   TabsControls: MdxTabsControls,
   TabsControl: MdxTabsControl,
   TabsItem: MdxTabsItem,
-  Sandbox: MdxSandbox,
 };
 
 export const Mdx = ({ code }: { code: string }) => {

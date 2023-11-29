@@ -1,9 +1,7 @@
-import { Showcase } from "@/components/showcase/Showcase";
+import { Showcase, ShowcasePropsType } from '@/components/showcase/Showcase';
 
-export type MdxShowcasePropsType = {
-  children: React.ReactNode;
-};
+export type MdxShowcasePropsType = {} & ShowcasePropsType;
 
-export const MdxShowcase = ({ children, ...props }: MdxShowcasePropsType) => {
-  return <Showcase {...props}>{children}</Showcase>;
+export const MdxShowcase = ({ ...props }: MdxShowcasePropsType) => {
+  return <Showcase {...props} />;
 };

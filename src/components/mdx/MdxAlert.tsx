@@ -1,8 +1,6 @@
-import { Alert } from '@/components/alert/Alert';
+import { Alert, AlertPropsType } from '@/components/alert/Alert';
 
-export type MdxAlertPropsType = {
-  children: React.ReactNode;
-};
+export type MdxAlertPropsType = {} & AlertPropsType;
 
 export const MdxAlert = ({ children, ...props }: MdxAlertPropsType) => {
   return <Alert {...props}>{children}</Alert>;

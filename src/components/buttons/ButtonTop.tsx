@@ -1,6 +1,7 @@
 import { IconArrowUp } from '@tabler/icons-react';
 import { useCallback, useEffect, useRef } from 'react';
 import { ComponentGeneralPropsType } from '@/components/component/Component';
+import { classnamify } from '@/utils/classnamify/classnamify';
 
 export type ButtonTopPropsType = {} & ComponentGeneralPropsType;
 
@@ -23,17 +24,7 @@ export const ButtonTop = ({
     }
   }, []);
 
-  const handleButtonClick = useCallback(() => {
-    window.scrollTo({
-      top: 0,
-    });
-  }, []);
-
   useEffect(() => {
-    if (!refInside.current) {
-      return;
-    }
-
     window.addEventListener('scroll', handleWindowScroll);
 
     return () => {
@@ -47,9 +38,17 @@ export const ButtonTop = ({
       style={{
         ...styleOutside,
       }}
-      onClick={handleButtonClick}
+      onClick={() =>
+        window.scrollTo({
+          top: 0,
+        })
+      }
       ref={refInside}
-      className={`rounded p-2 invisible bg-slate-200 dark:bg-slate-800 sticky right-0 bottom-4 justify-self-end z-20`}
+      className={classnamify(
+        `rounded p-2 invisible bg-slate-200 dark:bg-slate-800 sticky right-0 bottom-4 justify-self-end z-20`,
+        classNameOutside
+      )}
+      type="button"
     >
       <IconArrowUp />
       <span className="sr-only">Пролистать в начало страницы</span>

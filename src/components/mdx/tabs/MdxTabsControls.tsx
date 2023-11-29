@@ -1,8 +1,9 @@
-import { TabsControls } from "@/components/tabs/TabsControls";
+import {
+  TabsControls,
+  TabsControlsPropsType,
+} from '@/components/tabs/TabsControls';
 
-export type MdxTabsControlsPropsType = {
-  children: React.ReactNode;
-};
+export type MdxTabsControlsPropsType = {} & TabsControlsPropsType;
 
 export const MdxTabsControls = ({
   children,

@@ -1,26 +1,30 @@
 'use client';
 
-import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 import { ShellAside } from './ShellAside';
 import { ShellContent } from './ShellContent';
 import { ShellSidebar } from './ShellSidebar';
 import { BreadcrumbsTreeBranchType } from '@/utils/utils';
 import { NavTreeBranchType } from '@/utils/utils';
-import { usePathname } from 'next/navigation';
+import { ComponentGeneralPropsType } from '@/components/component/Component';
+import { classnamify } from '@/utils/classnamify/classnamify';
 
 type ShellPropsType = {
   children: React.ReactNode;
   navTree: NavTreeBranchType[];
   tocTree: any[];
   breadcrumbsTree: BreadcrumbsTreeBranchType[];
-};
+} & ComponentGeneralPropsType;
 
 export const Shell = ({
   children,
   navTree,
   tocTree,
   breadcrumbsTree,
+  className: classNameOutside,
+  style: styleOutside,
+  ...props
 }: ShellPropsType) => {
   const tocRef = useRef<HTMLDivElement>(null);
   const tocParentRef = useRef<HTMLDivElement>(null);
@@ -87,7 +91,7 @@ export const Shell = ({
     [shellAsideRef, tocRef, tocParentRef, tocMobileRef]
   );
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!_check()) {
       return;
     }
@@ -103,7 +107,16 @@ export const Shell = ({
   }, [shellAsideRef, tocRef, tocParentRef, tocMobileRef, handleWindowResize]);
 
   return (
-    <div className="grid grid-rows-1 grid-cols-1 pl-5 xl:pl-0 xl:grid-cols-[min-content_minmax(300px,_1fr)_min-content]">
+    <div
+      {...props}
+      style={{
+        ...styleOutside,
+      }}
+      className={classnamify(
+        'grid grid-rows-1 grid-cols-1 pl-5 xl:pl-0 xl:grid-cols-[min-content_minmax(300px,_1fr)_min-content]',
+        classNameOutside
+      )}
+    >
       <ShellSidebar {...{ shellContentRef, tocMobileRef, navTree }} />
       <ShellContent ref={shellContentRef} {...{ breadcrumbsTree }}>
         {children}
@@ -112,3 +125,5 @@ export const Shell = ({
     </div>
   );
 };
+
+Shell.displayName = 'Shell';

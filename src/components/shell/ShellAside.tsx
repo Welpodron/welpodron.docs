@@ -1,21 +1,29 @@
 import { useMergedRef } from '@/hooks/useMergedRef/useMergedRef';
-import {
-  IconChevronRight,
-  IconChevronLeft,
-  IconArrowsHorizontal,
-} from '@tabler/icons-react';
+import { IconArrowsHorizontal } from '@tabler/icons-react';
 import { forwardRef, useState, useRef } from 'react';
 import { Toc } from '@/components/toc/Toc';
 import { TocTreeBranchType } from '@/utils/utils';
+import { ComponentGeneralPropsType } from '@/components/component/Component';
+import { classnamify } from '@/utils/classnamify/classnamify';
 
 export type ShellAsidePropsType = {
   tocTree: TocTreeBranchType[];
   tocRef?: React.RefObject<HTMLDivElement>;
   tocParentRef?: React.RefObject<HTMLDivElement>;
-};
+} & ComponentGeneralPropsType;
 
 export const ShellAside = forwardRef<HTMLElement, ShellAsidePropsType>(
-  ({ tocTree, tocRef, tocParentRef }, forwardedRef) => {
+  (
+    {
+      tocTree,
+      tocRef,
+      tocParentRef,
+      className: classNameOutside,
+      style: styleOutside,
+      ...props
+    },
+    forwardedRef
+  ) => {
     const [isActive, setIsActive] = useState(true);
 
     const ref = useRef(null);
@@ -28,11 +36,16 @@ export const ShellAside = forwardRef<HTMLElement, ShellAsidePropsType>(
 
     return (
       <aside
-        ref={mergedRef}
+        {...props}
         style={{
+          ...styleOutside,
           width: isActive ? '310px' : '20px',
         }}
-        className="sticky hidden xl:block text-sm self-start h-screen w-[310px] bg-white top-0 z-[100] right-0 border-l border-slate-200 dark:bg-slate-900 dark:border-slate-800"
+        ref={mergedRef}
+        className={classnamify(
+          'sticky hidden xl:block text-sm self-start h-screen w-[310px] bg-white top-0 z-[100] right-0 border-l border-slate-200 dark:bg-slate-900 dark:border-slate-800',
+          classNameOutside
+        )}
       >
         <div
           ref={tocParentRef}

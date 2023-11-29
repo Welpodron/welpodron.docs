@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useLayoutEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import { ThemeProviderContext } from './ThemeProviderContext';
 
@@ -51,17 +51,7 @@ export const ThemeProvider = ({ children }: ThemeProviderPropsType) => {
     >
       <script
         dangerouslySetInnerHTML={{
-          __html: `try {
-      if (
-        localStorage.getItem('theme') === 'dark' ||
-        (localStorage.getItem('theme') === null &&
-          window.matchMedia('(prefers-color-scheme: dark)').matches)
-      ) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    } catch (_) {}`,
+          __html: `try{"dark"===localStorage.getItem("theme")||null===localStorage.getItem("theme")&&window.matchMedia("(prefers-color-scheme: dark)").matches?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")}catch(e){}`,
         }}
       ></script>
       {children}

@@ -18,17 +18,16 @@ export const Layout = ({
   className: classNameOutside,
   ...props
 }: LayoutPropsType) => {
-  const classNameInside = 'grid relative grid-rows-[auto_minmax(0,_1fr)_auto]';
-
-  const mergedClassName = classnamify(classNameOutside, classNameInside);
-
   return (
     <div
       {...props}
       style={{
         ...styleOutside,
       }}
-      className={mergedClassName}
+      className={classnamify(
+        'grid relative grid-rows-[auto_minmax(0,_1fr)_auto]',
+        classNameOutside
+      )}
     >
       <LayoutHeader />
       <LayoutContent {...{ navTree }} />

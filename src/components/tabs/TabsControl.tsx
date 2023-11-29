@@ -4,12 +4,12 @@ import { forwardRef, useCallback, useContext } from 'react';
 import { TabsContext } from './TabsContext';
 import { classnamify } from '@/utils/classnamify/classnamify';
 import { polymorphize } from '@/utils/polymorphize/polymorphize';
+import { ComponentGeneralPropsType } from '@/components/component/Component';
 
 export type TabsControlPropsType = {
   itemId: string;
-  className?: string;
   children: React.ReactNode;
-};
+} & ComponentGeneralPropsType;
 
 const _TabsControl = forwardRef<
   HTMLButtonElement,
@@ -18,7 +18,14 @@ const _TabsControl = forwardRef<
   }
 >(
   (
-    { children, itemId, className: classNameOutside, as, ...props },
+    {
+      children,
+      itemId,
+      style: styleOutside,
+      className: classNameOutside,
+      as,
+      ...props
+    },
     refForwarded
   ) => {
     const { activeItemId, setActiveItemId, items } = useContext(TabsContext);
@@ -30,6 +37,7 @@ const _TabsControl = forwardRef<
     return (
       <Element
         {...props}
+        style={{ ...styleOutside }}
         ref={refForwarded}
         role="tab"
         aria-controls={item?.id}

@@ -5,12 +5,12 @@ import { TabsContext } from './TabsContext';
 import { classnamify } from '@/utils/classnamify/classnamify';
 import { polymorphize } from '@/utils/polymorphize/polymorphize';
 import { useMergedRef } from '@/hooks/useMergedRef/useMergedRef';
+import { ComponentGeneralPropsType } from '@/components/component/Component';
 
 export type TabsItemPropsType = {
   itemId: string;
-  className?: string;
   children: React.ReactNode;
-};
+} & ComponentGeneralPropsType;
 
 const _TabsItem = forwardRef<
   HTMLDivElement,
@@ -19,7 +19,14 @@ const _TabsItem = forwardRef<
   }
 >(
   (
-    { children, itemId, as, className: classNameOutside, ...props },
+    {
+      children,
+      itemId,
+      as,
+      style: styleOutside,
+      className: classNameOutside,
+      ...props
+    },
     refForwarded
   ) => {
     const idInside = useId();
@@ -30,8 +37,6 @@ const _TabsItem = forwardRef<
 
     const refInside = useRef<HTMLDivElement>(null);
     const refMerged = useMergedRef(refInside, refForwarded);
-
-    const classNameMerged = classnamify(classNameOutside);
 
     useEffect(() => {
       if (!refInside.current) {
@@ -54,11 +59,14 @@ const _TabsItem = forwardRef<
     return (
       <Element
         {...props}
+        style={{
+          ...styleOutside,
+          display: activeItemId === itemId ? 'block' : 'none',
+        }}
         id={idInside}
         ref={refMerged}
         role="tabpanel"
-        className={classNameMerged}
-        style={{ display: activeItemId === itemId ? 'block' : 'none' }}
+        className={classnamify(classNameOutside)}
       >
         {children}
       </Element>

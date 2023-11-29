@@ -1,14 +1,11 @@
-import { useState, useEffect, useCallback, useLayoutEffect } from 'react';
+import { useState, useCallback, useLayoutEffect } from 'react';
 
 export const useMatchMedia = (query: string) => {
   const [isMatch, setIsMatch] = useState(false);
 
-  const handleMediaChange = useCallback(
-    (media: MediaQueryListEvent) => {
-      setIsMatch(media.matches);
-    },
-    [setIsMatch]
-  );
+  const handleMediaChange = useCallback((media: MediaQueryListEvent) => {
+    setIsMatch(media.matches);
+  }, []);
 
   useLayoutEffect(() => {
     const media = window.matchMedia(query);
@@ -20,7 +17,7 @@ export const useMatchMedia = (query: string) => {
     return () => {
       media.removeEventListener('change', handleMediaChange);
     };
-  }, [setIsMatch, handleMediaChange, query]);
+  }, [handleMediaChange, query]);
 
   return isMatch;
 };
