@@ -1,5 +1,6 @@
 'use client';
 
+import { useTooltip } from '@/hooks/useTooltip/useTooltip';
 import { classnamify } from '@/utils/classnamify/classnamify';
 import {
   IconArrowsMaximize,
@@ -20,6 +21,13 @@ export const Showcase = ({ url, ...props }: ShowcasePropsType) => {
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
+  //! PREVENT FUCKING IFRAME INSIDE GRID JUMP
+  const [isMountedState, setIsMountedState] = useState(false);
+
+  const { refs, update } = useTooltip<HTMLButtonElement, HTMLSpanElement>({
+    toggleOnClick: true,
+  });
+
   const handleDocumentKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.key === 'Escape') {
       setIsFullscreen(false);
@@ -27,6 +35,8 @@ export const Showcase = ({ url, ...props }: ShowcasePropsType) => {
   }, []);
 
   useEffect(() => {
+    update();
+
     if (isFullscreen) {
       document.body.style.overflow = 'hidden';
       document.addEventListener('keydown', handleDocumentKeyDown);
@@ -38,10 +48,16 @@ export const Showcase = ({ url, ...props }: ShowcasePropsType) => {
     return () => {
       document.removeEventListener('keydown', handleDocumentKeyDown);
     };
-  }, [isFullscreen, handleDocumentKeyDown]);
+  }, [isFullscreen, handleDocumentKeyDown, update]);
 
   //! Переопределяем поведение next по умолчанию чтобы избежать рекурсии iframe из-за 404
   useEffect(() => {
+    //! PREVENT FUCKING IFRAME INSIDE GRID JUMP
+    if (!isMountedState) {
+      setIsMountedState(true);
+      return;
+    }
+
     if (!iframeRef.current) {
       return;
     }
@@ -98,7 +114,7 @@ export const Showcase = ({ url, ...props }: ShowcasePropsType) => {
     return () => {
       abortController.abort();
     };
-  }, [url]);
+  }, [url, isMountedState]);
 
   return (
     <div
@@ -114,28 +130,42 @@ export const Showcase = ({ url, ...props }: ShowcasePropsType) => {
           <IconEye className="shrink-0 mr-2" />
           <span>Превью</span>
         </p>
-        <button
-          onClick={() => setIsFullscreen((s) => !s)}
-          className="rounded p-2 bg-slate-200 dark:bg-slate-800"
-        >
-          {isFullscreen ? <IconArrowsMinimize /> : <IconArrowsMaximize />}
-          <span className="sr-only">
+        <div className="relative">
+          <button
+            onClick={() => setIsFullscreen((s) => !s)}
+            className="rounded p-2 bg-slate-200 dark:bg-slate-800"
+            ref={refs.anchorRef}
+          >
+            {isFullscreen ? <IconArrowsMinimize /> : <IconArrowsMaximize />}
+            <span className="sr-only">
+              {isFullscreen ? 'Свернуть' : 'На весь экран'}
+            </span>
+          </button>
+          <span
+            ref={refs.contentRef}
+            className="bg-[#101D41] z-[200] hidden rounded text-white p-2 text-xs absolute left-0 pointer-events-none top-0 w-max max-w-[200px] line-clamp-2"
+          >
             {isFullscreen ? 'Свернуть' : 'На весь экран'}
           </span>
-        </button>
+        </div>
       </div>
       <div
-        className={`p-4 flex justify-center items-center showcase-preview overflow-y-auto min-h-[300px]`}
+        className={classnamify(
+          `p-4 flex justify-center items-center showcase-preview overflow-y-auto`,
+          !isFullscreen && 'h-[300px]'
+        )}
       >
         {isLoading && <IconLoader2 className="animate-spin w-12 h-12" />}
-        <iframe
-          className={classnamify(
-            'w-full h-full m-auto bg-slate-50/40 dark:bg-slate-800/10 rounded',
-            isLoading && 'sr-only'
-          )}
-          src="about:blank"
-          ref={iframeRef}
-        />
+        {isMountedState && (
+          <iframe
+            className={classnamify(
+              'w-full h-full max-w-full max-h-full m-auto bg-slate-50/40 dark:bg-slate-800/10 rounded',
+              isLoading && 'sr-only'
+            )}
+            src="about:blank"
+            ref={iframeRef}
+          />
+        )}
       </div>
     </div>
   );

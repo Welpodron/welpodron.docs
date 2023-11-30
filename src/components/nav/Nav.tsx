@@ -75,13 +75,13 @@ export const Nav = forwardRef<HTMLDivElement, NavPropsType>(
             <IconHome />
             <span className="sr-only">Домашняя страница</span>
           </Link>
-          <button
-            onClick={handleBtnToContentClick}
-            className="text-sm sr-only focus-visible:not-sr-only"
-          >
-            Перейти к содержимому
-          </button>
         </div>
+        <button
+          onClick={handleBtnToContentClick}
+          className="text-xs sr-only text-left focus-visible:not-sr-only"
+        >
+          Перейти к содержимому
+        </button>
         <div ref={tocMobileRef}></div>
         <p className="font-medium">Навигация:</p>
         {renderTree(tree, 0)}

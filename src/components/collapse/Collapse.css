@@ -1,10 +1,10 @@
-[data-w-collapse]:not([data-w-collapse-active]) {
+[data-w-collapse] {
   display: none;
   overflow: hidden;
   transition: height 0.45s ease;
 }
 
-[data-w-collapse][aria-expanded='true'] {
+[data-w-collapse-active] {
   display: block;
 }
 

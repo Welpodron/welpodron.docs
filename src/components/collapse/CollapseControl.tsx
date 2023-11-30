@@ -31,6 +31,10 @@ const _CollapseControl = forwardRef<
   ) => {
     const { isActive, setIsActive, _id } = useContext(CollapseContext);
 
+    const componentAttributes: Record<string, string> = {
+      'data-w-collapse-control': '',
+    };
+
     const Element = as || 'button';
 
     const handleElementClick = useCallback(
@@ -47,11 +51,11 @@ const _CollapseControl = forwardRef<
     return (
       <Element
         {...props}
+        {...componentAttributes}
         style={{
           ...styleOutside,
         }}
         className={classnamify(classNameOutside)}
-        data-w-collapse-control=""
         ref={refForwarded}
         aria-expanded={isActive}
         aria-controls={_id}
