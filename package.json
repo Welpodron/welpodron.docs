@@ -16,7 +16,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "serve out",
     "lint": "next lint"
   },
   "dependencies": {
