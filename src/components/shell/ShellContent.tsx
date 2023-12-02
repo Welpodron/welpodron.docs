@@ -41,7 +41,7 @@ export const ShellContent = forwardRef<HTMLDivElement, ShellContentPropsType>(
         <main className="p-4 relative grid">
           <div className="min-h-screen p-4 xl:p-6 space-y-8">
             <Breadcrumbs tree={breadcrumbsTree} />
-            <div className="prose max-w-full">{children}</div>
+            <div className="max-w-full prose">{children}</div>
           </div>
           <ButtonTop />
         </main>

@@ -24,10 +24,10 @@ export const LayoutContent = ({
     >
       <div className="space-y-20 py-20 pt-10">
         <div className="space-y-10">
-          <h1 className="text-5xl font-bold">
+          <h1 className="font-extrabold py-5 text-4xl sm:text-5xl lg:text-6xl tracking-tight break-words sm:break-normal">
             Документация для всякого разного
           </h1>
-          <p>
+          <p className="text-sm leading-7 text-slate-600 dark:text-slate-400">
             Данная документация создана к проектам, модулям, компонентам и
             прочим штукам в &quot;экосистеме&quot; welpodron. На текущий момент
             документация находится в разработке: содержимое самой документации

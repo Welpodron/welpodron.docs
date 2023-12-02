@@ -1,9 +1,10 @@
 'use client';
 
 import { IconCopy, IconCheck } from '@tabler/icons-react';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ComponentGeneralPropsType } from '@/components/component/Component';
 import { classnamify } from '@/utils/classnamify/classnamify';
+import { useTooltip } from '@/hooks/useTooltip/useTooltip';
 
 export type ButtonCopyPropsType = {
   text: string;
@@ -16,6 +17,8 @@ export const ButtonCopy = ({
   ...props
 }: ButtonCopyPropsType) => {
   const [isCopied, setIsCopied] = useState(false);
+
+  const { refs, update } = useTooltip<HTMLButtonElement, HTMLSpanElement>();
 
   const handleButtonClick = useCallback(() => {
     (async () => {
@@ -33,23 +36,29 @@ export const ButtonCopy = ({
 
       setTimeout(() => {
         setIsCopied(false);
-      }, 500);
+      }, 800);
     })();
   }, [text]);
 
+  useEffect(() => {
+    update();
+  }, [update, isCopied]);
+
   return (
-    <span className={isCopied ? 'cursor-default' : 'pointer'}>
+    <span
+      className={classnamify(
+        'relative',
+        isCopied ? 'cursor-default' : 'pointer'
+      )}
+    >
       <button
         {...props}
         style={{
           ...styleButtonOutside,
         }}
-        className={classnamify(
-          'rounded p-2',
-          isCopied ? 'pointer-events-none' : 'pointer-events-auto',
-          classNameButtonOutside
-        )}
+        className={classnamify('rounded p-2', classNameButtonOutside)}
         disabled={isCopied}
+        ref={refs.anchorRef}
         type="button"
         onClick={handleButtonClick}
       >
@@ -58,6 +67,12 @@ export const ButtonCopy = ({
           {isCopied ? 'Код скопирован' : 'Скопировать код'}
         </span>
       </button>
+      <span
+        ref={refs.contentRef}
+        className="bg-[#101D41] z-[200] hidden rounded text-white p-2 text-xs absolute left-0 pointer-events-none top-0 w-max max-w-[200px] line-clamp-2"
+      >
+        {isCopied ? 'Код скопирован' : 'Скопировать код'}
+      </span>
     </span>
   );
 };

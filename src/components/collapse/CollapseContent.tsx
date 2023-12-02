@@ -32,6 +32,14 @@ const _CollapseContent = forwardRef<
   ) => {
     const { isActive, _id } = useContext(CollapseContext);
 
+    const componentAttributes: Record<string, string> = {
+      'data-w-collapse': '',
+    };
+
+    if (isActive) {
+      componentAttributes['data-w-collapse-active'] = '';
+    }
+
     const insideRef = useRef<HTMLDivElement>(null);
     const animationTimerRef = useRef(0);
     const mountedRef = useRef(false);
@@ -56,7 +64,7 @@ const _CollapseContent = forwardRef<
       if (isActive) {
         // show
         element.style.height = '0px';
-        element.setAttribute('aria-expanded', 'true');
+        element.setAttribute('data-w-collapse-active', '');
         element.scrollHeight;
         element.style.height = element.scrollHeight + 'px';
 
@@ -74,7 +82,7 @@ const _CollapseContent = forwardRef<
         // hide
         element.style.display = 'block';
         element.style.height = element.scrollHeight + 'px';
-        element.setAttribute('aria-expanded', 'false');
+        element.removeAttribute('data-w-collapse-active');
         element.scrollHeight;
         element.style.height = `0px`;
 
@@ -103,14 +111,13 @@ const _CollapseContent = forwardRef<
     return (
       <Element
         {...props}
+        {...componentAttributes}
         style={{
           ...styleOutside,
         }}
         ref={mergedRef}
         className={classnamify(classNameOutside)}
-        data-w-collapse=""
         id={_id}
-        aria-expanded={isActive}
       >
         {children}
       </Element>

@@ -6,6 +6,7 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['cyrillic'] });
 
 import { ThemeProvider } from '@/components/providers/theme/ThemeProvider';
+import { Jumper } from '@/components/jumper/Jumper';
 
 export const metadata: Metadata = {
   title: 'Документация welpodron.docs',
@@ -20,6 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html suppressHydrationWarning lang="ru">
+      <Jumper />
       <body className={inter.className}>
         <ThemeProvider>{children}</ThemeProvider>
       </body>

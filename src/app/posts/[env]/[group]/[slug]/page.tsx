@@ -79,7 +79,7 @@ const PostLayout = async ({
   return (
     <Shell {...{ tocTree, navTree, breadcrumbsTree }}>
       <div>
-        <h1>{currentPost.title}</h1>
+        <h1 className="break-all sm:break-normal">{currentPost.title}</h1>
         {currentPost.description && currentPost.description.length && (
           <p>{currentPost.description}</p>
         )}
@@ -90,15 +90,15 @@ const PostLayout = async ({
           {previousPost && previousPost.depth === currentPost.depth && (
             <Link
               scroll={false}
-              className="flex items-center col-start-1 grow rounded border border-slate-200 dark:bg-slate-900 dark:border-slate-800 p-4"
+              className="flex  items-center col-start-1 grow rounded border border-slate-200 dark:bg-slate-900 dark:border-slate-800 p-4"
               href={previousPost.url}
             >
               <IconArrowLeft className="shrink-0 mr-4" />
-              <div>
-                <p className="text-sm mb-2 hidden md:block">
+              <div className="min-w-0">
+                <p className="text-sm mb-2 hidden md:block truncate">
                   Предыдущая страница
                 </p>
-                <p className="font-medium text-sm md:text-base">
+                <p className="font-medium text-sm md:text-base truncate">
                   {previousPost.title}
                 </p>
               </div>
@@ -110,11 +110,11 @@ const PostLayout = async ({
               className="flex items-center col-start-2 grow rounded text-right border border-slate-200 dark:bg-slate-900 dark:border-slate-800 p-4"
               href={nextPost.url}
             >
-              <div className="ml-auto">
-                <p className="text-sm mb-2 hidden md:block">
+              <div className="ml-auto min-w-0">
+                <p className="text-sm mb-2 hidden md:block truncate">
                   Следующая страница
                 </p>
-                <p className="font-medium text-sm md:text-base">
+                <p className="font-medium text-sm md:text-base truncate">
                   {nextPost.title}
                 </p>
               </div>
