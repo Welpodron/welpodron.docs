@@ -151,20 +151,24 @@ export const Showcase = ({ url, ...props }: ShowcasePropsType) => {
       </div>
       <div
         className={classnamify(
-          `p-4 flex justify-center items-center showcase-preview overflow-y-auto`,
+          `p-4 grid relative place-content-center place-items-center showcase-preview grid-rows-1 grid-cols-1`,
           !isFullscreen && 'h-[300px]'
         )}
       >
         {isLoading && <IconLoader2 className="animate-spin w-12 h-12" />}
         {isMountedState && (
-          <iframe
+          <div
             className={classnamify(
-              'w-full h-full max-w-full max-h-full m-auto bg-slate-50/40 dark:bg-slate-800/10 rounded',
+              'overflow-y-auto w-full h-full max-w-full max-h-full bg-slate-50/40 dark:bg-slate-800/10 rounded',
               isLoading && 'sr-only'
             )}
-            src="about:blank"
-            ref={iframeRef}
-          />
+          >
+            <iframe
+              className={'w-full h-full'}
+              src="about:blank"
+              ref={iframeRef}
+            />
+          </div>
         )}
       </div>
     </div>

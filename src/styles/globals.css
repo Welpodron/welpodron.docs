@@ -146,6 +146,13 @@ code[data-line-numbers-max-digits='3'] > [data-line]::before {
   @apply text-indigo-500 underline;
 }
 
+@media (max-width: 610px) {
+  .prose {
+    font-size: 0.875rem;
+    line-height: 1.8;
+  }
+}
+
 @media (max-width: 1280px) {
   .sidebar.sidebar--active {
     width: 95%;

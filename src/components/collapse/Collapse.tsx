@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useId, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useId, useState } from 'react';
 
 import { CollapseContext } from './CollapseContext';
 import { CollapseControl } from './CollapseControl';
@@ -10,10 +10,8 @@ import './Collapse.css';
 
 export type CollapsePropsType = {
   children: React.ReactNode;
-  /**
-   * Активен ли элемент сейчас (полный контроль над состоянием извне)
-   */
-  isActive?: boolean;
+  /** Контроль извне */
+  state?: [boolean, Dispatch<SetStateAction<boolean>>];
   /**
    * Опциональный аргумент, влияющий на начальное состояние (контроль над состоянием внутри компонента, а не извне)
    * */
@@ -26,7 +24,7 @@ export type CollapsePropsType = {
 
 export const Collapse = ({
   children,
-  isActive: isActiveOutside,
+  state,
   isActiveDefault = false,
   onChange = () => {},
   ...props
@@ -34,6 +32,7 @@ export const Collapse = ({
   const _id = useId();
 
   const [isActiveInside, setIsActiveInside] = useState(isActiveDefault);
+  const [isActiveOutside, setIsActiveOutside] = state ?? [];
 
   useEffect(() => {
     if (onChange) {
@@ -46,10 +45,7 @@ export const Collapse = ({
       value={{
         _id,
         isActive: isActiveOutside ?? isActiveInside,
-        setIsActive:
-          isActiveOutside != null
-            ? () => setIsActiveInside(isActiveOutside)
-            : setIsActiveInside,
+        setIsActive: setIsActiveOutside ?? setIsActiveInside,
       }}
     >
       {children}

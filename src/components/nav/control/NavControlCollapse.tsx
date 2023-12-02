@@ -16,19 +16,12 @@ export const NavControlCollapse = ({
 }: NavControlCollapsePropsType) => {
   const [isActive, setIsActive] = useState(branch.isActive);
 
-  const handleActiveChange = useCallback(
-    (isActive: boolean) => {
-      setIsActive(isActive);
-    },
-    [setIsActive]
-  );
-
   const iconStyle = {
     transform: `rotate(${isActive ? '0' : '180deg'})`,
   };
 
   return (
-    <Collapse onChange={handleActiveChange} isActiveDefault={isActive}>
+    <Collapse state={[isActive, setIsActive]}>
       <Collapse.Control
         className={`flex items-center font-medium justify-between w-full rounded-r p-3`}
       >

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import { useMatchMedia } from '../useMatchMedia/useMatchMedia';
 
 export type useTooltipPropsType = {
   showOnMouseEnter?: boolean;
@@ -22,6 +23,8 @@ export const useTooltip = <
 ) => {
   const anchorRef = useRef<AnchorType>(null);
   const contentRef = useRef<ContentType>(null);
+
+  const isTouch = useMatchMedia('(hover: none)');
 
   const update = useCallback(() => {
     const anchorElement = anchorRef.current;
@@ -86,6 +89,10 @@ export const useTooltip = <
   }, [update]);
 
   useEffect(() => {
+    if (isTouch) {
+      return;
+    }
+
     const anchorElement = anchorRef.current;
     const contentElement = contentRef.current;
 
@@ -116,6 +123,7 @@ export const useTooltip = <
     handleMouseEnter,
     handleMouseLeave,
     handleAnchorClick,
+    isTouch,
   ]);
 
   return { refs: { anchorRef, contentRef }, update };
