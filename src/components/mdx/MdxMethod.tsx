@@ -26,7 +26,7 @@ export const MdxMethod = ({
           {name}
         </p>
         {description?.length && (
-          <p className=" mt-2 leading-[1.2] dark:text-slate-600">
+          <p className="mt-2 text-sm leading-[1.2] dark:text-slate-400">
             {description}
           </p>
         )}

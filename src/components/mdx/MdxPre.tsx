@@ -20,7 +20,7 @@ export const MdxPre = ({
   return (
     <div className="rounded grid border border-slate-200 not-prose dark:border-slate-800 ">
       <div className="grid not-prose">
-        <div className="p-4 top-0 z-10 sticky bg-slate-50 flex items-center justify-between dark:bg-slate-900">
+        <div className="p-4 top-0 z-10 sticky bg-slate-50/70 flex items-center justify-between dark:bg-slate-900/70 backdrop-blur">
           <p className="font-medium p-2 rounded bg-slate-200 inline-flex items-center leading-none uppercase dark:bg-slate-800">
             {lang === 'html' && (
               <IconBrandHtml5 className="shrink-0 mr-2 text-red-500" />

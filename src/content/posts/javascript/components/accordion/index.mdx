@@ -1,3 +1,138 @@
 ---
 title: Аккордеон
+description: Компонент для переключения видимости контента по определенным группам (аккордеон)
 ---
+
+## Подключение 
+
+В случае если компонент поддерживает несколько способов подключения, используйте только тот, который больше подходит для проекта
+
+<Alert>
+  Перед подключением компонента убедитесь, что все необходимые для требуемого компонента зависимости установлены и подключены!
+</Alert>
+
+### Используя Bitrix 
+
+Для подключения компонента используется стандартный метод для работы с расширениями `CJSCore::Init` 
+
+```php
+CJSCore::Init(['welpodron.core.accordion']);
+```
+
+### Прямое подключение
+
+Для подключения компонента используется комбинация тегов `script` и `link` 
+
+<Tabs activeItemIdDefault="CSS">
+<TabsControls>
+    <TabsControl itemId="CSS">CSS</TabsControl>
+    <TabsControl itemId="JS">JS</TabsControl>
+</TabsControls>
+<TabsItem itemId="CSS">
+    ```html
+    ...
+    Здесь находятся подключение всех стилей, от которого зависит текущий подключаемый скрипт
+    ...
+    <link rel="stylesheet" href="Путь к локально размещенному файлу стилей компонента">
+    ...
+    Здесь находятся подключение всех зависимых от данного скрипта стилей
+    ...
+    </head>
+    ```
+</TabsItem>
+<TabsItem itemId="JS">
+    ```html
+    ...
+    Здесь находятся подключение всех скриптов, от которого зависит текущий подключаемый скрипт
+    ...
+    <script src="Путь к локально размещенному файлу скрипта компонента"></script>
+    ...
+    Здесь находятся подключение всех зависимых от данного скрипта скриптов
+    ...
+    </body>
+    ...
+    ```
+</TabsItem>
+</Tabs>
+
+## Использование
+
+Компонент работает с помощью специальных HTML атрибутов, не забывайте указывать их в соответствии с документацией перед инициализацией компонента в JavaScript
+
+### HTML
+
+Базовый HTML управляемого элемента (основной компонент)
+
+```html /COMPONENT_ID/#gci
+<div 
+  data-w-accordion
+  data-w-accordion-id="COMPONENT_ID"
+>
+  Содержимое управляемого элемента (основной компонент)
+</div>
+```
+|Атрибут|Значения|Описание|
+|---|---|---|
+|`data-w-accordion` <b className="text-red-500">*</b>|-|Указатель компонента|
+|`data-w-accordion-id` <b className="text-red-500">*</b>|-|Идентификатор компонента|
+
+Базовый HTML управляемого элемента (дочерний компонент)
+
+```html /COMPONENT_ID/#gci /COMPONENT_ITEM_ID/#gci
+<div 
+  data-w-accordion-id="COMPONENT_ID"
+  data-w-accordion-item
+  data-w-accordion-item-id="COMPONENT_ITEM_ID"
+  [data-w-accordion-item-active]
+>
+  Содержимое управляемого элемента (дочерний компонент)
+</div>
+```
+|Атрибут|Значения|Описание|
+|---|---|---|
+|`data-w-accordion-id` <b className="text-red-500">*</b>|-|Идентификатор основного компонента|
+|`data-w-accordion-item` <b className="text-red-500">*</b>|-|Указатель дочернего компонента|
+|`data-w-accordion-item-id` <b className="text-red-500">*</b>|-|Идентификатор дочернего компонента|
+|`data-w-accordion-item-active`|-|Указатель активности дочернего компонента|
+
+Базовый HTML управляющего элемента
+
+```html /COMPONENT_ID/#gci /ONE_OF_SUPPORTED_ACTIONS/#gci /ARGS_TO_PASS_TO_ACTION/#gci
+<button 
+  data-w-accordion-control
+  [data-w-accordion-control-active]
+  data-w-accordion-id="COMPONENT_ID"
+  data-w-accordion-action="ONE_OF_SUPPORTED_ACTIONS"
+  data-w-accordion-action-args="ARGS_TO_PASS_TO_ACTION"
+  [data-w-accordion-action-flush]
+>
+  Содержимое управляющего элемента
+</button>
+```
+|Атрибут|Значения|Описание|
+|---|---|---|
+|`data-w-accordion-control` <b className="text-red-500">*</b>|-|Указатель контрола|
+|`data-w-accordion-control-active`|-|Указатель активности контрола|
+|`data-w-accordion-id` <b className="text-red-500">*</b>|-|Идентификатор компонента|
+|`data-w-accordion-action` <b className="text-red-500">*</b>|`show`|Экшен компонента|
+|`data-w-accordion-action-args` <b className="text-red-500">*</b>|-|Аргументы передаваемые в экшен|
+|`data-w-accordion-action-flush`|-|Не использовать `event.preventDefault()`|
+
+### JavaScript
+
+Базовая инициализация экземпляра компонента
+
+```js /COMPONENT_ID/#gci
+if (window.welpodron && window.welpodron.accordion) {
+  const instance = new window.welpodron.accordion({
+      element: document.querySelector('[data-w-accordion][data-w-accordion-id="COMPONENT_ID"]');
+  })
+}
+```
+Доступные методы экземпляра компонента `welpodron.accordion`
+
+<Method isAsync={true} name="show(options)" description="Переключение компонента в видимое состояние">
+|Аргумент|Тип|Описание|
+|---|---|---|
+|`options` <b className="text-red-500">*</b>|`{ args?: unknown; event?: Event }`|Объект с опциями вызова метода|
+</Method>
