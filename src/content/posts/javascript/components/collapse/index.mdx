@@ -1,6 +1,6 @@
 ---
 title: Сворачиваемый контент
-description: Переключение видимости контента при клике на управляющий элемент(ы) или с помощью API компонента
+description: Компонент для переключения видимости контента
 ---
 
 <Showcase url="/templates/static/welpodron.core/collapse/index.html" />
@@ -13,121 +13,121 @@ description: Переключение видимости контента при
   Перед подключением компонента убедитесь, что все необходимые для требуемого компонента зависимости установлены и подключены!
 </Alert>
 
-  ### Используя Bitrix 
+### Используя Bitrix 
 
-  Для подключения компонента используется стандартный метод для работы с расширениями `CJSCore::Init` 
+Для подключения компонента используется стандартный метод для работы с расширениями `CJSCore::Init` 
 
-  ```php
-  CJSCore::Init(['welpodron.core']);
-  ```
+```php
+CJSCore::Init(['welpodron.core.collapse']);
+```
 
-  ### Прямое подключение
+### Прямое подключение
 
-  Для подключения компонента используется комбинация тегов `script` и `link` 
+Для подключения компонента используется комбинация тегов `script` и `link` 
 
-  <Tabs activeItemIdDefault="CSS">
-    <TabsControls>
-      <TabsControl itemId="CSS">CSS</TabsControl>
-      <TabsControl itemId="JS">JS</TabsControl>
-    </TabsControls>
-    <TabsItem itemId="CSS">
-      ```html
-      ...
-      Здесь находятся подключение всех стилей, от которого зависит текущий подключаемый скрипт
-      ...
-      <link rel="stylesheet" href="Путь к локально размещенному файлу стилей компонента">
-      ...
-      Здесь находятся подключение всех зависимых от данного скрипта стилей
-      ...
-      </head>
-      ```
-    </TabsItem>
-    <TabsItem itemId="JS">
-      ```html
-      ...
-      Здесь находятся подключение всех скриптов, от которого зависит текущий подключаемый скрипт
-      ...
-      <script src="Путь к локально размещенному файлу скрипта компонента"></script>
-      ...
-      Здесь находятся подключение всех зависимых от данного скрипта скриптов
-      ...
-      </body>
-      ...
-      ```
-    </TabsItem>
-  </Tabs>
+<Tabs activeItemIdDefault="CSS">
+  <TabsControls>
+    <TabsControl itemId="CSS">CSS</TabsControl>
+    <TabsControl itemId="JS">JS</TabsControl>
+  </TabsControls>
+  <TabsItem itemId="CSS">
+    ```html
+    ...
+    Здесь находятся подключение всех стилей, от которого зависит текущий подключаемый скрипт
+    ...
+    <link rel="stylesheet" href="Путь к локально размещенному файлу стилей компонента">
+    ...
+    Здесь находятся подключение всех зависимых от данного скрипта стилей
+    ...
+    </head>
+    ```
+  </TabsItem>
+  <TabsItem itemId="JS">
+    ```html
+    ...
+    Здесь находятся подключение всех скриптов, от которого зависит текущий подключаемый скрипт
+    ...
+    <script src="Путь к локально размещенному файлу скрипта компонента"></script>
+    ...
+    Здесь находятся подключение всех зависимых от данного скрипта скриптов
+    ...
+    </body>
+    ...
+    ```
+  </TabsItem>
+</Tabs>
 
-  ## Использование
+## Использование
 
-  Компонент работает с помощью специальных HTML атрибутов, не забывайте указывать их в соответствии с документацией перед инициализацией компонента в JavaScript
+Компонент работает с помощью специальных HTML атрибутов, не забывайте указывать их в соответствии с документацией перед инициализацией компонента в JavaScript
 
-  ### HTML
+### HTML
 
-  Базовый HTML управляемого элемента
-  
-  ```html /COMPONENT_ID/#gci /ONE_OF_SUPPORTED_ACTIONS/#gci
-  <div 
-    data-w-collapse
-    [data-w-collapse-active]  
-    data-w-collapse-id="COMPONENT_ID"
-  >
-    Содержимое управляемого элемента
-  </div>
-  ```
-  |Атрибут|Значения|Описание|
+Базовый HTML управляемого элемента
+
+```html /COMPONENT_ID/#gci /ONE_OF_SUPPORTED_ACTIONS/#gci
+<div 
+  data-w-collapse
+  [data-w-collapse-active]  
+  data-w-collapse-id="COMPONENT_ID"
+>
+  Содержимое управляемого элемента
+</div>
+```
+|Атрибут|Значения|Описание|
+|---|---|---|
+|`data-w-collapse` <b className="text-red-500">*</b>|-|Указатель компонента|
+|`data-w-collapse-active`|-|Указатель активности компонента|
+|`data-w-collapse-id` <b className="text-red-500">*</b>|-|Идентификатор компонента|
+
+Базовый HTML управляющего элемента
+
+```html /COMPONENT_ID/#gci /ONE_OF_SUPPORTED_ACTIONS/#gci
+<button 
+  data-w-collapse-control
+  [data-w-collapse-control-active]
+  data-w-collapse-id="COMPONENT_ID"
+  data-w-collapse-action="ONE_OF_SUPPORTED_ACTIONS"
+  [data-w-collapse-action-args="ARGS_TO_PASS_TO_ACTION"]
+  [data-w-collapse-action-flush]
+>
+  Содержимое управляющего элемента
+</button>
+```
+|Атрибут|Значения|Описание|
+|---|---|---|
+|`data-w-collapse-control` <b className="text-red-500">*</b>|-|Указатель контрола|
+|`data-w-collapse-control-active`|-|Указатель активности контрола|
+|`data-w-collapse-id` <b className="text-red-500">*</b>|-|Идентификатор компонента|
+|`data-w-collapse-action` <b className="text-red-500">*</b>|`toggle`, `show`, `hide`|Экшен компонента|
+|`data-w-collapse-action-args`|-|Аргументы передаваемые в экшен|
+|`data-w-collapse-action-flush`|-|Не использовать `event.preventDefault()`|
+
+### JavaScript
+
+Базовая инициализация экземпляра компонента
+
+```js /COMPONENT_ID/#gci
+if (window.welpodron && window.welpodron.collapse) {
+  const instance = new window.welpodron.collapse({
+    element: document.querySelector('[data-w-collapse][data-w-collapse-id="COMPONENT_ID"]');
+  })
+}
+```
+Доступные методы экземпляра компонента `welpodron.collapse`
+
+<Method isAsync={true} name="show(options)" description="Переключение компонента в видимое состояние">
+  |Аргумент|Тип|Описание|
   |---|---|---|
-  |`data-w-collapse` <b className="text-red-500">*</b>|-|Указатель компонента|
-  |`data-w-collapse-active`|-|Указатель активности компонента|
-  |`data-w-collapse-id` <b className="text-red-500">*</b>|-|Идентификатор компонента|
-  
-  Базовый HTML управляющего элемента
-  
-  ```html /COMPONENT_ID/#gci /ONE_OF_SUPPORTED_ACTIONS/#gci
-  <button 
-    data-w-collapse-control
-    [data-w-collapse-control-active]
-    data-w-collapse-id="COMPONENT_ID"
-    data-w-collapse-action="ONE_OF_SUPPORTED_ACTIONS"
-    [data-w-collapse-action-args="ARGS_TO_PASS_TO_ACTION"]
-    [data-w-collapse-action-flush]
-  >
-    Содержимое управляющего элемента
-  </button>
-  ```
-  |Атрибут|Значения|Описание|
+  |`options` <b className="text-red-500">*</b>|`{ args?: unknown; event?: Event }`|Объект с опциями вызова метода|
+</Method>
+<Method isAsync={true} name="hide(options)" description="Переключение компонента в скрытое состояние">
+  |Аргумент|Тип|Описание|
   |---|---|---|
-  |`data-w-collapse-control` <b className="text-red-500">*</b>|-|Указатель контрола|
-  |`data-w-collapse-control-active`|-|Указатель активности контрола|
-  |`data-w-collapse-id` <b className="text-red-500">*</b>|-|Идентификатор компонента|
-  |`data-w-collapse-action` <b className="text-red-500">*</b>|`toggle`, `show`, `hide`|Экшен компонента|
-  |`data-w-collapse-action-args`|-|Аргументы передаваемые в экшен|
-  |`data-w-collapse-action-flush`|-|Не использовать `event.preventDefault()`|
-  
-  ### JavaScript
-
-  Базовая инициализация экземпляра компонента
-  
-  ```js /COMPONENT_ID/#gci
-  if (window.welpodron && window.welpodron.collapse) {
-    const instance = new window.welpodron.collapse({
-      element: document.querySelector('[data-w-collapse][data-w-collapse-id="COMPONENT_ID"]');
-    })
-  }
-  ```
-  Доступные методы экземпляра компонента `welpodron.collapse`
-
-  <Method isAsync={true} name="show(options)" description="Переключение компонента в видимое состояние">
-    |Аргумент|Тип|Описание|
-    |---|---|---|
-    |`options` <b className="text-red-500">*</b>|`{ args?: unknown; event?: Event }`|Объект с опциями вызова метода|
-  </Method>
-  <Method isAsync={true} name="hide(options)" description="Переключение компонента в скрытое состояние">
-    |Аргумент|Тип|Описание|
-    |---|---|---|
-    |`options` <b className="text-red-500">*</b>|`{ args?: unknown; event?: Event }`|Объект с опциями вызова метода|
-  </Method>
-  <Method isAsync={true} name="toggle(options)" description="Переключение компонента в скрытое состояние из видимого и из видимого в скрытое">
-    |Аргумент|Тип|Описание|
-    |---|---|---|
-    |`options` <b className="text-red-500">*</b>|`{ args?: unknown; event?: Event }`|Объект с опциями вызова метода|
-  </Method>   
+  |`options` <b className="text-red-500">*</b>|`{ args?: unknown; event?: Event }`|Объект с опциями вызова метода|
+</Method>
+<Method isAsync={true} name="toggle(options)" description="Переключение компонента в скрытое состояние из видимого и из видимого в скрытое">
+  |Аргумент|Тип|Описание|
+  |---|---|---|
+  |`options` <b className="text-red-500">*</b>|`{ args?: unknown; event?: Event }`|Объект с опциями вызова метода|
+</Method>   

@@ -1,5 +1,5 @@
 // next.config.js
-// const { withContentlayer } = require('next-contentlayer');
+const { withContentlayer } = require('next-contentlayer');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -7,6 +7,6 @@ const nextConfig = {
 };
 
 // ! TEMPORARY DISABLED
-// module.exports = withContentlayer(nextConfig);
+module.exports = withContentlayer(nextConfig);
 
-module.exports = nextConfig;
+// module.exports = nextConfig;

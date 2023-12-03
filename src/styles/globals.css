@@ -81,7 +81,7 @@ code > [data-line]::before {
   content: counter(line);
 
   /* Other styling */
-  @apply text-slate-300 text-right mr-8 inline-block w-4;
+  @apply text-slate-300 text-right mr-8 inline-block w-4 dark:text-slate-600;
 }
 
 code[data-line-numbers-max-digits='2'] > [data-line]::before {
@@ -97,23 +97,27 @@ code[data-line-numbers-max-digits='3'] > [data-line]::before {
 }
 
 .content-table thead {
-  @apply grid top-0 z-10 sticky;
+  @apply top-0 z-10 sticky bg-slate-50/70  dark:bg-slate-900/70  backdrop-blur  overflow-x-auto grid;
 }
 
 .content-table thead tr {
-  @apply grid  p-4 text-left gap-x-2 bg-slate-50 items-center dark:bg-slate-900 grid-cols-3;
+  @apply flex;
 }
 
 .content-table th {
-  @apply font-medium;
+  @apply font-medium flex-grow flex-shrink-0 basis-[150px] p-4 text-left;
 }
 
 .content-table tbody {
-  @apply grid overflow-x-auto;
+  @apply overflow-x-auto grid;
 }
 
 .content-table tbody tr {
-  @apply grid  p-4 gap-x-2 items-center grid-cols-3 border-b border-slate-50 dark:border-slate-800;
+  @apply flex;
+}
+
+.content-table tbody td {
+  @apply flex-grow flex-shrink-0 basis-[150px] p-4 border-t border-slate-50 dark:border-slate-800;
 }
 
 .content-table code {

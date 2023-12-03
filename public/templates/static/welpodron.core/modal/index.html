@@ -7,24 +7,38 @@
       rel="stylesheet"
       href="../../../../css/welpodron.core/v2/modal/style.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="../../../../css/templates/static/generic/preflight.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../../../css/templates/static/generic/style.css"
+    />
   </head>
   <body>
     <button
       data-w-modal-control
       data-w-modal-id="modal_example_1"
       data-w-modal-action="show"
+      class="button"
+      type="button"
     >
-      <span>Содержимое управляющего элемента</span>
+      Содержимое управляющего элемента
     </button>
-    <div data-w-modal data-w-modal-id="modal_example_1">
-      <span>Содержимое управляемого элемента</span>
-      <button
-        data-w-modal-control
-        data-w-modal-id="modal_example_1"
-        data-w-modal-action="hide"
-      >
-        <span>Содержимое управляющего элемента</span>
-      </button>
+    <div class="modal" data-w-modal data-w-modal-id="modal_example_1">
+      <div>
+        <p>Содержимое управляемого элемента</p>
+        <button
+          data-w-modal-control
+          data-w-modal-id="modal_example_1"
+          data-w-modal-action="hide"
+          class="button"
+          type="button"
+        >
+          Содержимое управляющего элемента
+        </button>
+      </div>
     </div>
     <script src="../../../../js/welpodron.core/v2/utils/script.min.js"></script>
     <script src="../../../../js/welpodron.core/v2/animate/script.min.js"></script>
