@@ -1,23 +1,23 @@
-[data-w-collapse] {
+[data-collapse] {
   display: none;
   overflow: hidden;
   transition: height 0.45s ease;
 }
 
-[data-w-collapse-active] {
+[data-collapse-active] {
   display: block;
 }
 
-[data-w-collapse-control-icon] {
+[data-collapse-control-icon] {
   transition: transform 0.45s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-w-collapse] {
+  [data-collapse] {
     transition: none;
   }
 
-  [data-w-collapse-control-icon] {
+  [data-collapse-control-icon] {
     transition: none;
   }
 }

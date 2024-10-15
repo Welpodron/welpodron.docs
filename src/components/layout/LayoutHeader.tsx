@@ -1,13 +1,11 @@
-import { ButtonTheme } from '@/components/buttons/ButtonTheme';
-import Link from 'next/link';
-
-import Image from 'next/image';
+import { ButtonTheme } from "@/components/buttons/ButtonTheme";
+import { ButtonSearch } from "@/components/buttons/ButtonSearch";
+import Link from "next/link";
+import Image from "next/image";
 
 export type LayoutHeaderPropsType = {};
 
 export const LayoutHeader = ({ ...props }: LayoutHeaderPropsType) => {
-  //TODO: Добавить поиск
-
   return (
     <header
       {...props}
@@ -28,10 +26,13 @@ export const LayoutHeader = ({ ...props }: LayoutHeaderPropsType) => {
           />
           Welpodron.Docs
         </Link>
-        <ButtonTheme className=" bg-slate-200 dark:bg-slate-800" />
+        <div className="flex">
+          <ButtonSearch />
+          <ButtonTheme className="bg-slate-200 dark:bg-slate-800" />
+        </div>
       </div>
     </header>
   );
 };
 
-LayoutHeader.displayName = 'Layout.Header';
+LayoutHeader.displayName = "Layout.Header";

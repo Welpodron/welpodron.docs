@@ -1,13 +1,13 @@
-import { allPosts } from 'contentlayer/generated';
-import { getBreadcrumbsTree, getTocTree, getNavTree } from '@/utils/utils';
-import { Mdx } from '@/components/mdx/Mdx';
-import { Shell } from '@/components/shell/Shell';
-import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
-import Link from 'next/link';
+import { allPosts } from "contentlayer/generated";
+import { getBreadcrumbsTree, getTocTree, getNavTree } from "@/utils/utils";
+import { Mdx } from "@/components/mdx/Mdx";
+import { Shell } from "@/components/shell/Shell";
+import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react";
+import Link from "next/link";
 
 export const generateStaticParams = async (a: any) => {
   return allPosts.map((post) => {
-    const path = post._raw.flattenedPath.split('/');
+    const path = post._raw.flattenedPath.split("/");
 
     return {
       env: path[1],
@@ -23,7 +23,7 @@ export const generateMetadata = async ({
   params: { env: string; group: string; slug: string };
 }) => {
   const post = allPosts.find((post) => {
-    const path = post._raw.flattenedPath.split('/');
+    const path = post._raw.flattenedPath.split("/");
 
     if (
       path[1] === params.env &&
@@ -36,7 +36,7 @@ export const generateMetadata = async ({
 
   if (post) {
     return {
-      keywords: [params.env, params.group, params.slug].join(', '),
+      keywords: [params.env, params.group, params.slug].join(", "),
       description: post.description,
       title: post.title,
     };
@@ -49,7 +49,7 @@ const PostLayout = async ({
   params: { env: string; group: string; slug: string };
 }) => {
   const groupPosts = allPosts.filter((post) => {
-    const path = post._raw.flattenedPath.split('/');
+    const path = post._raw.flattenedPath.split("/");
 
     if (path[1] === params.env && path[2] === params.group) {
       return true;
@@ -57,7 +57,7 @@ const PostLayout = async ({
   });
 
   const currentPostIndex = groupPosts.findIndex((post) => {
-    const path = post._raw.flattenedPath.split('/');
+    const path = post._raw.flattenedPath.split("/");
 
     if (path[3] === params.slug) {
       return true;

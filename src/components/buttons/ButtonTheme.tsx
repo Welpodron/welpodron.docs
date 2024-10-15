@@ -30,17 +30,6 @@ export const ButtonTheme = ({
     update();
   }, [theme, update]);
 
-  //! Next.js Hydration mismatch warning fix
-  // if (!isMountedState) {
-  //   return (
-  //     <div
-  //       className={`rounded p-2 bg-slate-200 dark:bg-slate-800 text-indigo-700 pointer-events-none`}
-  //     >
-  //       <IconLoader2 className="animate-spin pointer-events-none" />
-  //     </div>
-  //   );
-  // }
-
   return (
     <div className="relative">
       <button
