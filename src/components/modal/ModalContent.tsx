@@ -26,7 +26,6 @@ export const ModalContent = ({
 
   const lastActiveElement = useRef<HTMLElement | null>(null);
   const trapFlowDirection = useRef<"forwards" | "backwards">();
-  const mountedRef = useRef(false);
   const windowLastScrollX = useRef(0);
   const windowLastScrollY = useRef(0);
 
@@ -99,11 +98,6 @@ export const ModalContent = ({
     const lastTrapFocusElementOutside = lastTrapFocusElementRefOutside?.current;
 
     if (!firstTrapFocusElementRef || !lastTrapFocusElementRef) {
-      return;
-    }
-
-    if (!mountedRef.current) {
-      mountedRef.current = true;
       return;
     }
 

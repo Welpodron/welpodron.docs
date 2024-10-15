@@ -8,16 +8,10 @@ import { Preview } from "@/components/preview/Preview";
 
 export const TabsPreview = () => {
   const _id = useId();
-  const mountedRef = useRef(false);
   const tabsRef = useRef<HTMLDivElement>(null);
   const tabsInstanceRef = useRef<tabs | null>(null);
 
   useEffect(() => {
-    if (!mountedRef.current) {
-      mountedRef.current = true;
-      return;
-    }
-
     if (!tabsRef.current) {
       return;
     }

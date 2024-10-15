@@ -8,16 +8,10 @@ import { Preview } from "@/components/preview/Preview";
 
 export const CarouselPreview = () => {
   const _id = useId();
-  const mountedRef = useRef(false);
   const carouselRef = useRef<HTMLDivElement>(null);
   const carouselInstanceRef = useRef<carousel | null>(null);
 
   useEffect(() => {
-    if (!mountedRef.current) {
-      mountedRef.current = true;
-      return;
-    }
-
     if (!carouselRef.current) {
       return;
     }
