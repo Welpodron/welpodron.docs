@@ -7,16 +7,10 @@ import { Preview } from "@/components/preview/Preview";
 
 export const CollapsePreview = () => {
   const _id = useId();
-  const mountedRef = useRef(false);
   const collapseRef = useRef<HTMLDivElement>(null);
   const collapseInstanceRef = useRef<collapse | null>(null);
 
   useEffect(() => {
-    if (!mountedRef.current) {
-      mountedRef.current = true;
-      return;
-    }
-
     if (!collapseRef.current) {
       return;
     }

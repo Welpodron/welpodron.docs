@@ -7,16 +7,10 @@ import { Preview } from "@/components/preview/Preview";
 
 export const ModalPreview = () => {
   const _id = useId();
-  const mountedRef = useRef(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const modalInstanceRef = useRef<modal | null>(null);
 
   useEffect(() => {
-    if (!mountedRef.current) {
-      mountedRef.current = true;
-      return;
-    }
-
     if (!modalRef.current) {
       return;
     }
@@ -32,7 +26,7 @@ export const ModalPreview = () => {
 
   return (
     <Preview>
-      <div className="p-4 rounded border border-slate-800 bg-slate-900 text-slate-100">
+      <div className="rounded border border-slate-800 bg-slate-900 text-slate-100">
         <button
           data-w-modal-control
           data-w-modal-id={_id}

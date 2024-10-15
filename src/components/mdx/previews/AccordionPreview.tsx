@@ -8,16 +8,10 @@ import { Preview } from "@/components/preview/Preview";
 
 export const AccordionPreview = () => {
   const _id = useId();
-  const mountedRef = useRef(false);
   const accordionRef = useRef<HTMLDivElement>(null);
   const accordionInstanceRef = useRef<accordion | null>(null);
 
   useEffect(() => {
-    if (!mountedRef.current) {
-      mountedRef.current = true;
-      return;
-    }
-
     if (!accordionRef.current) {
       return;
     }
