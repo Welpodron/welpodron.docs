@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from "react";
 
-import { ShellAside } from './ShellAside';
-import { ShellContent } from './ShellContent';
-import { ShellSidebar } from './ShellSidebar';
-import { BreadcrumbsTreeBranchType } from '@/utils/utils';
-import { NavTreeBranchType } from '@/utils/utils';
-import { ComponentGeneralPropsType } from '@/components/component/Component';
-import { classnamify } from '@/utils/classnamify/classnamify';
+import { ShellAside } from "./ShellAside";
+import { ShellContent } from "./ShellContent";
+import { ShellSidebar } from "./ShellSidebar";
+import { BreadcrumbsTreeBranchType } from "@/utils/utils";
+import { NavTreeBranchType } from "@/utils/utils";
+import { ComponentGeneralPropsType } from "@/components/component/Component";
+import { classnamify } from "@/utils/classnamify/classnamify";
 
 type ShellPropsType = {
   children: React.ReactNode;
@@ -67,7 +67,7 @@ export const Shell = ({
       }
 
       if (window.innerWidth < 1280) {
-        (shellAsideRef.current as HTMLElement).style.display = 'none';
+        (shellAsideRef.current as HTMLElement).style.display = "none";
         //! WTF c:
         if (!_checkToc()) {
           return;
@@ -77,7 +77,7 @@ export const Shell = ({
           tocMobileRef.current?.append(tocRef.current as HTMLElement);
         }
       } else {
-        shellAsideRef.current?.style.removeProperty('display');
+        shellAsideRef.current?.style.removeProperty("display");
         //! WTF c:
         if (!_checkToc()) {
           return;
@@ -96,34 +96,39 @@ export const Shell = ({
       return;
     }
 
-    window.removeEventListener('resize', handleWindowResize);
-    window.addEventListener('resize', handleWindowResize);
+    window.removeEventListener("resize", handleWindowResize);
+    window.addEventListener("resize", handleWindowResize);
 
-    handleWindowResize(new Event('resize'));
+    handleWindowResize(new Event("resize"));
 
     return () => {
-      window.removeEventListener('resize', handleWindowResize);
+      window.removeEventListener("resize", handleWindowResize);
     };
   }, [shellAsideRef, tocRef, tocParentRef, tocMobileRef, handleWindowResize]);
 
   return (
-    <div
-      {...props}
-      style={{
-        ...styleOutside,
-      }}
-      className={classnamify(
-        'grid grid-rows-1 grid-cols-1 pl-5 xl:pl-0 xl:grid-cols-[min-content_minmax(300px,_1fr)_min-content]',
-        classNameOutside
-      )}
-    >
-      <ShellSidebar {...{ shellContentRef, tocMobileRef, navTree }} />
-      <ShellContent ref={shellContentRef} {...{ breadcrumbsTree }}>
-        {children}
-      </ShellContent>
-      <ShellAside ref={shellAsideRef} {...{ tocTree, tocParentRef, tocRef }} />
-    </div>
+    <>
+      <div
+        {...props}
+        style={{
+          ...styleOutside,
+        }}
+        className={classnamify(
+          "grid grid-rows-1 grid-cols-1 pl-5 xl:pl-0 xl:grid-cols-[min-content_minmax(300px,_1fr)_min-content]",
+          classNameOutside
+        )}
+      >
+        <ShellSidebar {...{ shellContentRef, tocMobileRef, navTree }} />
+        <ShellContent ref={shellContentRef} {...{ breadcrumbsTree }}>
+          {children}
+        </ShellContent>
+        <ShellAside
+          ref={shellAsideRef}
+          {...{ tocTree, tocParentRef, tocRef }}
+        />
+      </div>
+    </>
   );
 };
 
-Shell.displayName = 'Shell';
+Shell.displayName = "Shell";

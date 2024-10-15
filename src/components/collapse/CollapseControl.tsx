@@ -32,7 +32,7 @@ const _CollapseControl = forwardRef<
     const { isActive, setIsActive, _id } = useContext(CollapseContext);
 
     const componentAttributes: Record<string, string> = {
-      'data-w-collapse-control': '',
+      'data-collapse-control': '',
     };
 
     const Element = as || 'button';

@@ -36,7 +36,7 @@ export const LayoutNavLeaf = ({ title, seeds }: LayoutNavLeafPropsType) => {
               className="rounded p-2 bg-slate-200 dark:bg-slate-800 "
             >
               <IconChevronUp
-                data-w-collapse-control-icon=""
+                data-collapse-control-icon=""
                 style={iconStyle}
               />
             </Collapse.Control>

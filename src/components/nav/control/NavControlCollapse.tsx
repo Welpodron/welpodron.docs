@@ -26,7 +26,7 @@ export const NavControlCollapse = ({
         className={`flex items-center font-medium justify-between w-full rounded-r p-3`}
       >
         <span>{branch.title}</span>
-        <IconChevronUp data-w-collapse-control-icon="" style={iconStyle} />
+        <IconChevronUp data-collapse-control-icon="" style={iconStyle} />
       </Collapse.Control>
       <Collapse.Content>
         {branch.children.length > 0 && renderTree(branch.children, depth + 1)}

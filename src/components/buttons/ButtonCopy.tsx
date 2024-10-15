@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { IconCopy, IconCheck } from '@tabler/icons-react';
-import { useCallback, useEffect, useState } from 'react';
-import { ComponentGeneralPropsType } from '@/components/component/Component';
-import { classnamify } from '@/utils/classnamify/classnamify';
-import { useTooltip } from '@/hooks/useTooltip/useTooltip';
+import { IconCopy, IconCheck } from "@tabler/icons-react";
+import { RefObject, useCallback, useEffect, useState } from "react";
+import { ComponentGeneralPropsType } from "@/components/component/Component";
+import { classnamify } from "@/utils/classnamify/classnamify";
+import { useTooltip } from "@/hooks/useTooltip/useTooltip";
 
 export type ButtonCopyPropsType = {
-  text: string;
+  preElementRef: RefObject<HTMLPreElement>;
 } & ComponentGeneralPropsType;
 
 export const ButtonCopy = ({
-  text,
   style: styleButtonOutside,
   className: classNameButtonOutside,
+  preElementRef,
   ...props
 }: ButtonCopyPropsType) => {
   const [isCopied, setIsCopied] = useState(false);
@@ -22,23 +22,33 @@ export const ButtonCopy = ({
 
   const handleButtonClick = useCallback(() => {
     (async () => {
-      const type = 'text/plain';
+      if (!preElementRef.current) {
+        return;
+      }
+
+      const text = preElementRef.current.textContent;
+
+      if (!text) {
+        return;
+      }
+
+      const type = "text/plain";
       const blob = new Blob([text], { type });
       const data = [new ClipboardItem({ [type]: blob })];
 
       try {
         await navigator.clipboard.write(data);
+
+        setIsCopied(true);
+
+        setTimeout(() => {
+          setIsCopied(false);
+        }, 800);
       } catch (_) {
-        document.execCommand('copy', false, text);
+        // show error 
       }
-
-      setIsCopied(true);
-
-      setTimeout(() => {
-        setIsCopied(false);
-      }, 800);
     })();
-  }, [text]);
+  }, []);
 
   useEffect(() => {
     update();
@@ -47,8 +57,8 @@ export const ButtonCopy = ({
   return (
     <span
       className={classnamify(
-        'relative',
-        isCopied ? 'cursor-default' : 'pointer'
+        "relative",
+        isCopied ? "cursor-default" : "pointer"
       )}
     >
       <button
@@ -56,7 +66,7 @@ export const ButtonCopy = ({
         style={{
           ...styleButtonOutside,
         }}
-        className={classnamify('rounded p-2', classNameButtonOutside)}
+        className={classnamify("rounded p-2", classNameButtonOutside)}
         disabled={isCopied}
         ref={refs.anchorRef}
         type="button"
@@ -64,17 +74,17 @@ export const ButtonCopy = ({
       >
         {isCopied ? <IconCheck className="text-green-500" /> : <IconCopy />}
         <span className="sr-only">
-          {isCopied ? 'Код скопирован' : 'Скопировать код'}
+          {isCopied ? "Код скопирован" : "Скопировать код"}
         </span>
       </button>
       <span
         ref={refs.contentRef}
         className="bg-[#101D41] z-[200] hidden rounded text-white p-2 text-xs absolute left-0 pointer-events-none top-0 w-max max-w-[200px] line-clamp-2"
       >
-        {isCopied ? 'Код скопирован' : 'Скопировать код'}
+        {isCopied ? "Код скопирован" : "Скопировать код"}
       </span>
     </span>
   );
 };
 
-ButtonCopy.displayName = 'Button.Copy';
+ButtonCopy.displayName = "Button.Copy";

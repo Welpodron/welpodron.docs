@@ -33,11 +33,11 @@ const _CollapseContent = forwardRef<
     const { isActive, _id } = useContext(CollapseContext);
 
     const componentAttributes: Record<string, string> = {
-      'data-w-collapse': '',
+      'data-collapse': '',
     };
 
     if (isActive) {
-      componentAttributes['data-w-collapse-active'] = '';
+      componentAttributes['data-collapse-active'] = '';
     }
 
     const insideRef = useRef<HTMLDivElement>(null);
@@ -64,7 +64,7 @@ const _CollapseContent = forwardRef<
       if (isActive) {
         // show
         element.style.height = '0px';
-        element.setAttribute('data-w-collapse-active', '');
+        element.setAttribute('data-collapse-active', '');
         element.scrollHeight;
         element.style.height = element.scrollHeight + 'px';
 
@@ -82,7 +82,7 @@ const _CollapseContent = forwardRef<
         // hide
         element.style.display = 'block';
         element.style.height = element.scrollHeight + 'px';
-        element.removeAttribute('data-w-collapse-active');
+        element.removeAttribute('data-collapse-active');
         element.scrollHeight;
         element.style.height = `0px`;
 

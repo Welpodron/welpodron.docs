@@ -1,0 +1,1 @@
+export const SEARCH_MODAL_ID = "SITE_SEARCH_MODAL";
