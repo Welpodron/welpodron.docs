@@ -52,6 +52,8 @@ export const WishlistPreview = () => {
     };
   }, []);
 
+  return null
+
   return (
     <Preview>
       <div className="p-4 rounded border border-slate-800 bg-slate-900 text-slate-100">
