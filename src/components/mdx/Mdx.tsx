@@ -18,6 +18,7 @@ import { TabsPreview } from "./previews/TabsPreview";
 import { AccordionPreview } from "./previews/AccordionPreview";
 import { ModalPreview } from "./previews/ModalPreview";
 import { CarouselPreview } from "./previews/CarouselPreview";
+import { WishlistPreview } from "./previews/WishlistPreview";
 
 const components = {
   pre: MdxPre,
@@ -34,6 +35,7 @@ const components = {
   AccordionPreview,
   ModalPreview,
   CarouselPreview,
+  WishlistPreview,
 };
 
 export const Mdx = ({ code }: { code: string }) => {

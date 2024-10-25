@@ -1,10 +1,12 @@
 "use client";
 
-import { IconCopy, IconCheck } from "@tabler/icons-react";
-import { RefObject, useCallback, useEffect, useState } from "react";
+import { IconCopy, IconCheck, IconAlertOctagon } from "@tabler/icons-react";
+import { RefObject, useCallback, useContext, useRef, useState } from "react";
 import { ComponentGeneralPropsType } from "@/components/component/Component";
 import { classnamify } from "@/utils/classnamify/classnamify";
-import { useTooltip } from "@/hooks/useTooltip/useTooltip";
+import { Tooltip } from "@/components/tooltip/Tooltip";
+import { NotificationsProviderContext } from "@/components/providers/notifications/NotificationsProviderContext";
+import { uuid } from "@/utils/uuid/uuid";
 
 export type ButtonCopyPropsType = {
   preElementRef: RefObject<HTMLPreElement>;
@@ -17,10 +19,18 @@ export const ButtonCopy = ({
   ...props
 }: ButtonCopyPropsType) => {
   const [isCopied, setIsCopied] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const errorTimer = useRef<number>();
+  const copiedTimer = useRef<number>();
 
-  const { refs, update } = useTooltip<HTMLButtonElement, HTMLSpanElement>();
+  const { openNotification, closeNotification } = useContext(
+    NotificationsProviderContext
+  );
 
   const handleButtonClick = useCallback(() => {
+    clearTimeout(errorTimer.current);
+    clearTimeout(copiedTimer.current);
+
     (async () => {
       if (!preElementRef.current) {
         return;
@@ -40,19 +50,29 @@ export const ButtonCopy = ({
         await navigator.clipboard.write(data);
 
         setIsCopied(true);
+        setIsError(false);
 
-        setTimeout(() => {
+        copiedTimer.current = window.setTimeout(() => {
           setIsCopied(false);
         }, 800);
       } catch (_) {
-        // show error 
+        const id = uuid();
+
+        openNotification({
+          id,
+          children: "Не удалось скопировать код",
+          onClose: () => closeNotification(id),
+        });
+
+        setIsCopied(false);
+        setIsError(true);
+
+        errorTimer.current = window.setTimeout(() => {
+          setIsError(false);
+        }, 800);
       }
     })();
-  }, []);
-
-  useEffect(() => {
-    update();
-  }, [update, isCopied]);
+  }, [openNotification, closeNotification]);
 
   return (
     <span
@@ -61,28 +81,42 @@ export const ButtonCopy = ({
         isCopied ? "cursor-default" : "pointer"
       )}
     >
-      <button
-        {...props}
-        style={{
-          ...styleButtonOutside,
-        }}
-        className={classnamify("rounded p-2", classNameButtonOutside)}
-        disabled={isCopied}
-        ref={refs.anchorRef}
-        type="button"
-        onClick={handleButtonClick}
+      <Tooltip
+        placement="relative"
+        label={
+          isCopied
+            ? "Код скопирован"
+            : isError
+            ? "Не удалось скопировать"
+            : "Скопировать код"
+        }
       >
-        {isCopied ? <IconCheck className="text-green-500" /> : <IconCopy />}
-        <span className="sr-only">
-          {isCopied ? "Код скопирован" : "Скопировать код"}
-        </span>
-      </button>
-      <span
-        ref={refs.contentRef}
-        className="bg-[#101D41] z-[200] hidden rounded text-white p-2 text-xs absolute left-0 pointer-events-none top-0 w-max max-w-[200px] line-clamp-2"
-      >
-        {isCopied ? "Код скопирован" : "Скопировать код"}
-      </span>
+        <button
+          {...props}
+          style={{
+            ...styleButtonOutside,
+          }}
+          className={classnamify("rounded p-2", classNameButtonOutside)}
+          disabled={isCopied || isError}
+          type="button"
+          onClick={handleButtonClick}
+        >
+          {isCopied ? (
+            <IconCheck className="text-green-500" />
+          ) : isError ? (
+            <IconAlertOctagon className="text-red-500" />
+          ) : (
+            <IconCopy />
+          )}
+          <span className="sr-only">
+            {isCopied
+              ? "Код скопирован"
+              : isError
+              ? "Не удалось скопировать"
+              : "Скопировать код"}
+          </span>
+        </button>
+      </Tooltip>
     </span>
   );
 };

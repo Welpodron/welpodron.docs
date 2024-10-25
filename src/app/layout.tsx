@@ -7,6 +7,7 @@ const inter = Inter({ subsets: ["cyrillic"] });
 
 import { ThemeProvider } from "@/components/providers/theme/ThemeProvider";
 import { ModalsProvider } from "@/components/providers/modals/ModalsProvider";
+import { NotificationsProvider } from "@/components/providers/notifications/NotificationsProvider";
 import { Jumper } from "@/components/jumper/Jumper";
 import { Initializer } from "@/components/initializer/Initializer";
 import { allPosts } from "contentlayer/generated";
@@ -40,9 +41,11 @@ export default function RootLayout({
             }))}
         >
           <ThemeProvider>
-            <ModalsProvider>
-              <Initializer>{children}</Initializer>
-            </ModalsProvider>
+            <NotificationsProvider>
+              <ModalsProvider>
+                <Initializer>{children}</Initializer>
+              </ModalsProvider>
+            </NotificationsProvider>
           </ThemeProvider>
         </SearchProvider>
       </body>

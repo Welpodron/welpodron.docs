@@ -1,8 +1,8 @@
-import { IconChevronUp } from '@tabler/icons-react';
-import { Collapse } from '../collapse/Collapse';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
-import { useTooltip } from '@/hooks/useTooltip/useTooltip';
+import { IconChevronUp } from "@tabler/icons-react";
+import { Collapse } from "@/components/collapse/Collapse";
+import Link from "next/link";
+import { useState } from "react";
+import { Tooltip } from "@/components/tooltip/Tooltip";
 
 export type LayoutNavLeafPropsType = {
   title: string;
@@ -15,15 +15,9 @@ export type LayoutNavLeafPropsType = {
 export const LayoutNavLeaf = ({ title, seeds }: LayoutNavLeafPropsType) => {
   const [isActive, setIsActive] = useState(true);
 
-  const { refs, update } = useTooltip<HTMLButtonElement, HTMLSpanElement>();
-
   const iconStyle = {
-    transform: `rotate(${isActive ? '0' : '180deg'})`,
+    transform: `rotate(${isActive ? "0" : "180deg"})`,
   };
-
-  useEffect(() => {
-    update();
-  }, [isActive, update]);
 
   return (
     <div>
@@ -31,21 +25,17 @@ export const LayoutNavLeaf = ({ title, seeds }: LayoutNavLeafPropsType) => {
         <div className="flex py-10 justify-between items-center">
           <h3 className="text-base font-semibold">{title}</h3>
           <div className="justify-self-end relative">
-            <Collapse.Control
-              ref={refs.anchorRef}
-              className="rounded p-2 bg-slate-200 dark:bg-slate-800 "
-            >
-              <IconChevronUp
-                data-collapse-control-icon=""
-                style={iconStyle}
-              />
-            </Collapse.Control>
-            <span
-              ref={refs.contentRef}
-              className="bg-[#101D41] z-[200] hidden rounded text-white p-2 text-xs absolute left-0 pointer-events-none top-0 w-max max-w-[200px] line-clamp-2"
-            >
-              {isActive ? 'Скрыть' : 'Показать'}
-            </span>
+            <Tooltip label={isActive ? "Скрыть" : "Показать"}>
+              <Collapse.Control className="rounded p-2 bg-slate-200 dark:bg-slate-800 ">
+                <IconChevronUp
+                  data-collapse-control-icon=""
+                  style={iconStyle}
+                />
+                <span className="sr-only">
+                  {isActive ? "Скрыть" : "Показать"}
+                </span>
+              </Collapse.Control>
+            </Tooltip>
           </div>
         </div>
         <Collapse.Content>

@@ -8,12 +8,13 @@ import { ModalsProviderContext } from "@/components/providers/modals/ModalsProvi
 
 import { useRouter, usePathname } from "next/navigation";
 import { SEARCH_MODAL_ID } from "@/constants/constants";
+import { Tooltip } from "@/components/tooltip/Tooltip";
 
 export type SearchPropsType = {
   searchInputRef: RefObject<HTMLInputElement>;
 };
 
-export const Search = ({searchInputRef}: SearchPropsType) => {
+export const Search = ({ searchInputRef }: SearchPropsType) => {
   const pathname = usePathname();
   const router = useRouter();
   const [query, setQuery] = useState("");
@@ -68,13 +69,16 @@ export const Search = ({searchInputRef}: SearchPropsType) => {
           onChange={handleChange}
           ref={searchInputRef}
         />
-        <button
-          className="rounded ml-auto p-2 ml-4 bg-slate-200 dark:bg-slate-800 z-[2]"
-          type="button"
-          onClick={() => closeModal(SEARCH_MODAL_ID)}
-        >
-          <IconX />
-        </button>
+        <Tooltip label="Закрыть">
+          <button
+            className="rounded ml-auto p-2 ml-4 bg-slate-200 dark:bg-slate-800 z-[2]"
+            type="button"
+            onClick={() => closeModal(SEARCH_MODAL_ID)}
+          >
+            <IconX />
+            <span className="sr-only">Закрыть окно</span>
+          </button>
+        </Tooltip>
       </div>
       <div className="p-4 bg-slate-200 dark:bg-slate-800 rounded-b-xl grid w-full overflow-y-auto h-full md:h-[min(55vh,_500px)]">
         {suggestions.length > 0 ? (
@@ -89,7 +93,12 @@ export const Search = ({searchInputRef}: SearchPropsType) => {
                   {tags && tags.length > 0 && (
                     <span className="flex space-x-2 mb-2">
                       {tags.map((tag, index) => (
-                        <span className="p-1 text-xs inline-block rounded bg-indigo-500 dark:bg-indigo-700 text-white" key={index}>{tag}</span>
+                        <span
+                          className="p-1 text-xs inline-block rounded bg-indigo-500 dark:bg-indigo-700 text-white"
+                          key={index}
+                        >
+                          {tag}
+                        </span>
                       ))}
                     </span>
                   )}

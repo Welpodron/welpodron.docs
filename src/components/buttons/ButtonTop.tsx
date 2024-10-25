@@ -1,7 +1,7 @@
-import { IconArrowUp } from '@tabler/icons-react';
-import { useCallback, useEffect, useRef } from 'react';
-import { ComponentGeneralPropsType } from '@/components/component/Component';
-import { classnamify } from '@/utils/classnamify/classnamify';
+import { IconArrowUp } from "@tabler/icons-react";
+import { useCallback, useEffect, useRef } from "react";
+import { ComponentGeneralPropsType } from "@/components/component/Component";
+import { classnamify } from "@/utils/classnamify/classnamify";
 
 export type ButtonTopPropsType = {} & ComponentGeneralPropsType;
 
@@ -18,17 +18,17 @@ export const ButtonTop = ({
     }
 
     if (window.scrollY > 300) {
-      refInside.current.style.visibility = 'visible';
+      refInside.current.style.visibility = "visible";
     } else {
-      refInside.current.style.visibility = 'hidden';
+      refInside.current.style.visibility = "hidden";
     }
   }, []);
 
   useEffect(() => {
-    window.addEventListener('scroll', handleWindowScroll);
+    window.addEventListener("scroll", handleWindowScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleWindowScroll);
+      window.removeEventListener("scroll", handleWindowScroll);
     };
   }, [handleWindowScroll]);
 
@@ -56,4 +56,4 @@ export const ButtonTop = ({
   );
 };
 
-ButtonTop.displayName = 'Button.Top';
+ButtonTop.displayName = "Button.Top";

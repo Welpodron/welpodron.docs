@@ -11506,10 +11506,17 @@ well-known-symbols@^2.0.0:
   resolved "https://registry.yarnpkg.com/well-known-symbols/-/well-known-symbols-2.0.0.tgz#e9c7c07dbd132b7b84212c8174391ec1f9871ba5"
   integrity sha512-ZMjC3ho+KXo0BfJb7JgtQ5IBuvnShdlACNkKkdsqBmYw3bPAaJfPeYUo6tLUaT5tG/Gkh7xkpBhKRQ9e7pyg9Q==
 
-welpodron.core@^2.1.4:
+welpodron.core@^2.1.2, welpodron.core@^2.1.4:
   version "2.1.4"
   resolved "https://registry.yarnpkg.com/welpodron.core/-/welpodron.core-2.1.4.tgz#72d8e95c8fc37dd58488416a484336a096b93b06"
   integrity sha512-uRy/sAV8+tDNFWvk/0BK59RiY206b4KzKj77fLBOWHGzDNE6PYpT9qF2WPJ0lmzkMa00Erg0nCJa5MIR2YKFLw==
+
+welpodron.wishlist@^2.0.0:
+  version "2.0.7"
+  resolved "https://registry.yarnpkg.com/welpodron.wishlist/-/welpodron.wishlist-2.0.7.tgz#265d2aabb7152ca3200e18e8b43f4ff5dbbd283b"
+  integrity sha512-GJGB6QL3Qv+qaEFXy7FckFAoFpImqw9CIo82nIcy65NS/tWOeww3FjWzxBSDycF4K5VsVaKpWDFlsxmklomAmQ==
+  dependencies:
+    welpodron.core "^2.1.2"
 
 whatwg-url@^5.0.0:
   version "5.0.0"

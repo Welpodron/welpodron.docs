@@ -1,6 +1,5 @@
 "use client";
 
-import { useTooltip } from "@/hooks/useTooltip/useTooltip";
 import { classnamify } from "@/utils/classnamify/classnamify";
 import {
   IconArrowsMaximize,
@@ -8,6 +7,7 @@ import {
   IconEye,
 } from "@tabler/icons-react";
 import { useCallback, useEffect, useState } from "react";
+import { Tooltip } from "@/components/tooltip/Tooltip";
 
 export type PreviewPropsType = {
   children: React.ReactNode;
@@ -16,10 +16,6 @@ export type PreviewPropsType = {
 export const Preview = ({ children }: PreviewPropsType) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  const { refs, update } = useTooltip<HTMLButtonElement, HTMLSpanElement>({
-    toggleOnClick: true,
-  });
-
   const handleDocumentKeyDown = useCallback((event: KeyboardEvent) => {
     if (event.key === "Escape") {
       setIsFullscreen(false);
@@ -27,7 +23,7 @@ export const Preview = ({ children }: PreviewPropsType) => {
   }, []);
 
   useEffect(() => {
-    update();
+    // update();
 
     if (isFullscreen) {
       document.body.style.overflow = "hidden";
@@ -40,7 +36,7 @@ export const Preview = ({ children }: PreviewPropsType) => {
     return () => {
       document.removeEventListener("keydown", handleDocumentKeyDown);
     };
-  }, [isFullscreen, handleDocumentKeyDown, update]);
+  }, [isFullscreen, handleDocumentKeyDown]);
 
   return (
     <div
@@ -57,22 +53,21 @@ export const Preview = ({ children }: PreviewPropsType) => {
           <span>Превью</span>
         </p>
         <div className="relative">
-          <button
-            onClick={() => setIsFullscreen((s) => !s)}
-            className="rounded p-2 bg-slate-200 dark:bg-slate-800"
-            ref={refs.anchorRef}
+          <Tooltip
+            placement="relative"
+            label={isFullscreen ? "Свернуть" : "На весь экран"}
+            toggleOnClick={true}
           >
-            {isFullscreen ? <IconArrowsMinimize /> : <IconArrowsMaximize />}
-            <span className="sr-only">
-              {isFullscreen ? "Свернуть" : "На весь экран"}
-            </span>
-          </button>
-          <span
-            ref={refs.contentRef}
-            className="bg-[#101D41] z-[200] hidden rounded text-white p-2 text-xs absolute left-0 pointer-events-none top-0 w-max max-w-[200px] line-clamp-2"
-          >
-            {isFullscreen ? "Свернуть" : "На весь экран"}
-          </span>
+            <button
+              onClick={() => setIsFullscreen((s) => !s)}
+              className="rounded p-2 bg-slate-200 dark:bg-slate-800"
+            >
+              {isFullscreen ? <IconArrowsMinimize /> : <IconArrowsMaximize />}
+              <span className="sr-only">
+                {isFullscreen ? "Свернуть" : "На весь экран"}
+              </span>
+            </button>
+          </Tooltip>
         </div>
       </div>
       <div
@@ -83,7 +78,9 @@ export const Preview = ({ children }: PreviewPropsType) => {
       >
         <div className="overflow-y-auto w-full h-full max-w-full max-h-full bg-slate-50/40 dark:bg-slate-800/10 rounded">
           <div className="w-full h-full">
-            <div className="grid items-center justify-center min-h-[220px]">{children}</div>
+            <div className="grid items-center justify-center min-h-[220px]">
+              {children}
+            </div>
           </div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { RefObject, useCallback, useEffect, useRef } from "react";
+import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 
 export type ModalPropsType = {
   children: React.ReactNode;
@@ -15,6 +15,17 @@ export const ModalContent = ({
   firstTrapFocusElementRef: firstTrapFocusElementRefOutside,
   lastTrapFocusElementRef: lastTrapFocusElementRefOutside,
 }: ModalPropsType) => {
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  const isMountedRef = useRef(true);
+
+  const [opacityAnimationFinished, setOpacityAnimationFinished] =
+    useState(false);
+  const [transformAnimationFinished, setTransformAnimationFinished] =
+    useState(false);
+
+  const wasOpenedRef = useRef(false);
+
   const overlayRef = useRef<HTMLDivElement>(null);
   const firstTrapFocusElementRefInside = useRef<HTMLDivElement>(null);
   const lastTrapFocusElementRefInside = useRef<HTMLDivElement>(null);
@@ -29,27 +40,44 @@ export const ModalContent = ({
   const windowLastScrollX = useRef(0);
   const windowLastScrollY = useRef(0);
 
+  const handleTransitionEnd = useCallback((event: TransitionEvent) => {
+    if (event.target !== contentRef.current) {
+      return;
+    }
+
+    if (event.propertyName === "transform") {
+      setTransformAnimationFinished(true);
+    }
+
+    if (event.propertyName === "opacity") {
+      setOpacityAnimationFinished(true);
+    }
+  }, []);
+
+  const handleClose = useCallback(() => {
+    if (!isMountedRef.current) {
+      return;
+    }
+    isMountedRef.current = false;
+    setOpacityAnimationFinished(false);
+    setTransformAnimationFinished(false);
+    contentRef.current?.addEventListener("transitionend", handleTransitionEnd);
+    contentRef.current?.classList.add("opacity-0", "translate-y-2");
+  }, []);
+
   const handleClick = useCallback(
     (event: React.MouseEvent) => {
       if (event.target === overlayRef.current) {
-        if (lastActiveElement.current?.focus) {
-          lastActiveElement.current?.focus();
-        }
-
-        onClose();
+        handleClose();
       }
     },
-    [onClose]
+    [handleClose]
   );
 
   const handleKeyDown = useCallback(
     (event: React.KeyboardEvent) => {
       if (event.key === "Escape") {
-        if (lastActiveElement.current?.focus) {
-          lastActiveElement.current?.focus();
-        }
-
-        onClose();
+        handleClose();
       } else if (event.key === "Tab") {
         trapFlowDirection.current = "forwards";
 
@@ -71,7 +99,7 @@ export const ModalContent = ({
         }
       }
     },
-    [onClose]
+    [handleClose]
   );
 
   const handleFirstTrapFocusElementFocus = useCallback(() => {
@@ -95,13 +123,16 @@ export const ModalContent = ({
   }, []);
 
   useEffect(() => {
-    const lastTrapFocusElementOutside = lastTrapFocusElementRefOutside?.current;
-
-    if (!firstTrapFocusElementRef || !lastTrapFocusElementRef) {
-      return;
+    if (!wasOpenedRef.current) {
+      lastActiveElement.current = document.activeElement as HTMLElement;
+      wasOpenedRef.current = true;
     }
 
-    // play on mount animation
+    contentRef.current?.addEventListener("transitionend", handleTransitionEnd);
+    contentRef.current?.scrollHeight;
+    contentRef.current?.classList.remove("opacity-0", "translate-y-2");
+
+    const lastTrapFocusElementOutside = lastTrapFocusElementRefOutside?.current;
 
     if (lastTrapFocusElementOutside) {
       lastTrapFocusElementOutside.addEventListener(
@@ -113,7 +144,6 @@ export const ModalContent = ({
     document.body.style.overflow = "hidden";
     windowLastScrollY.current = window.scrollY;
     windowLastScrollX.current = window.screenX;
-    lastActiveElement.current = document.activeElement as HTMLElement;
     firstTrapFocusElementRef.current?.focus();
 
     return () => {
@@ -127,8 +157,25 @@ export const ModalContent = ({
       if (!document.querySelector("[data-modal]")) {
         document.body.style.removeProperty("overflow");
       }
+
+      contentRef.current?.removeEventListener(
+        "transitionend",
+        handleTransitionEnd
+      );
     };
   }, []);
+
+  useEffect(() => {
+    if (transformAnimationFinished && opacityAnimationFinished) {
+      if (!isMountedRef.current) {
+        if (lastActiveElement.current?.focus) {
+          lastActiveElement.current?.focus();
+        }
+
+        onClose();
+      }
+    }
+  }, [opacityAnimationFinished, transformAnimationFinished]);
 
   return (
     <div
@@ -152,7 +199,10 @@ export const ModalContent = ({
         className="w-full h-full fixed z-[200] left-0 top-0 bottom-0 right-0 dark:bg-slate-900/70 backdrop-blur bg-slate-500/30"
       />
       <div className="flex items-center justify-center w-full h-full fixed md:p-4 xl:p-16 fixed z-[200] left-0 top-0 bottom-0 right-0 pointer-events-none">
-        <div className="max-w-full max-h-full h-full md:h-auto pointer-events-auto relative flex justify-center w-full">
+        <div
+          ref={contentRef}
+          className="max-w-full max-h-full h-full md:h-auto pointer-events-auto relative flex justify-center w-full transition translate-y-2 opacity-0"
+        >
           {children}
         </div>
       </div>
